@@ -37,19 +37,19 @@ class AppRootScreen extends GetView<AppScreenRootController> {
                         Icons.home,
                         color: context.theme.iconTheme.color,
                       ),
-                      label: 'Home'),
+                      label: 'home_tab'.tr),
                   BottomNavigationBarItem(
                       icon: Icon(
                         Icons.favorite,
                         color: context.theme.iconTheme.color,
                       ),
-                      label: 'Favorites'),
+                      label: 'favorites_tab'.tr),
                   BottomNavigationBarItem(
                       icon: FaIcon(
                         FontAwesomeIcons.list,
                         color: context.theme.iconTheme.color,
                       ),
-                      label: 'All')
+                      label: 'all_cards_tab'.tr)
                 ]),
           );
         }

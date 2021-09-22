@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/context_extensions.dart';
 import 'package:my_library/controllers/auth_controller.dart';
+import 'package:my_library/screens/widgets/add_category_dialog.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -14,7 +15,10 @@ class HomeScreen extends StatelessWidget {
         elevation: 0,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.defaultDialog(
+                  title: 'Add Category', content: AddCategoryDialog());
+            },
             icon: Icon(
               Icons.add_to_photos_outlined,
               color: context.theme.iconTheme.color,

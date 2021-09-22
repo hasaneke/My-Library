@@ -23,7 +23,14 @@ final Map<String, String> enUs = {
   'password_are_not_matched': 'Passwords are not matched',
   'weak_password_message': 'Password must be at least 6 charchters long',
   'email_already_in_use': 'Email already in use',
-  'enter_a_valid_email': 'Enter a valid email'
+  'enter_a_valid_email': 'Enter a valid email',
+  /* ROOT APP SCREEN */
+  'home_tab': 'Home',
+  'favorites_tab': 'Favorites',
+  'all_cards_tab': 'All',
+  /* ADD CATEGORY DIALOG */
+  'category_title': 'Title',
+  'pick_a_color': 'Pick a color'
 };
 
 final Map<String, String> trTR = {
@@ -44,5 +51,12 @@ final Map<String, String> trTR = {
   'password_are_not_matched': 'Şifreler eşleşmedi',
   'weak_password_message': 'Şifre en az 6 karakter uzunluğunda olmalı',
   'email_already_in_use': 'E-posta zaten kullanılıyor',
-  'enter_a_valid_email': 'Geçerli bir e-posta giriniz'
+  'enter_a_valid_email': 'Geçerli bir e-posta giriniz',
+  /* ROOT APP SCREEN */
+  'home_tab': 'Ana sayfa',
+  'favorites_tab': 'Favoriler',
+  'all_cards_tab': 'Tüm Kartlar',
+  /* ADD CATEGORY DIALOG */
+  'category_title': 'Başlık',
+  'pick_a_color': 'Renk seç',
 };
