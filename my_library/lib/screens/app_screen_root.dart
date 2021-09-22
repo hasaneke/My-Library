@@ -12,7 +12,7 @@ import '../database.dart';
 class AppRootScreen extends GetView<AppScreenRootController> {
   AppRootScreen({Key? key}) : super(key: key);
   final authController = Get.put(AuthController());
-  final databaseController = Get.put(Database());
+  final databaseController = Get.put(DatabaseController());
   @override
   Widget build(BuildContext context) {
     return Obx(() {

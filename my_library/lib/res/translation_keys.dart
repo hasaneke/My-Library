@@ -29,8 +29,10 @@ final Map<String, String> enUs = {
   'favorites_tab': 'Favorites',
   'all_cards_tab': 'All',
   /* ADD CATEGORY DIALOG */
+  'add_category_title': 'Add Category',
   'category_title': 'Title',
-  'pick_a_color': 'Pick a color'
+  'pick_a_color': 'Pick a color',
+  'add_category': 'Add'
 };
 
 final Map<String, String> trTR = {
@@ -57,6 +59,8 @@ final Map<String, String> trTR = {
   'favorites_tab': 'Favoriler',
   'all_cards_tab': 'Tüm Kartlar',
   /* ADD CATEGORY DIALOG */
+  'add_category_title': 'Kategori Ekle',
   'category_title': 'Başlık',
   'pick_a_color': 'Renk seç',
+  'add_category': 'Add'
 };
