@@ -8,6 +8,7 @@ abstract class AppTranslation {
 }
 
 final Map<String, String> enUs = {
+  'my_library': 'My Library',
   'login_intro': 'Welcome to Your Library',
   'email': 'E-mail',
   'password': 'Password',
@@ -40,6 +41,7 @@ final Map<String, String> enUs = {
 
 final Map<String, String> trTR = {
   /* UI PART */
+  'my_library': 'Kütüphanem',
   'login_intro': 'Kütüphanene Hoşgeldin',
   'sign_up_intro': 'YENİ KÜTÜPHANENE İLK ADIM',
   /* AUTH PART*/

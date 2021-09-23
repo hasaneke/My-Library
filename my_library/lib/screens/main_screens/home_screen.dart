@@ -57,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                           color: Colors.black,
                         ),
                         Text(
-                          'My Library',
+                          'my_library'.tr,
                           style: TextStyle(fontSize: 27),
                         ),
                         Container(
@@ -72,8 +72,11 @@ class HomeScreen extends StatelessWidget {
                   title: Text('settings'.tr,
                       style: context.theme.textTheme.bodyText2),
                   onTap: () {
-                    authController.signOut();
+                    Get.toNamed(Routes.SETTINGS);
                   },
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 ListTile(
                   leading: const Icon(Icons.exit_to_app),
