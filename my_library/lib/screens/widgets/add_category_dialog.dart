@@ -12,7 +12,7 @@ import 'package:my_library/res/custom_colors.dart';
 class AddCategoryDialog extends GetView<DatabaseController> {
   final _formKey = GlobalKey<FormState>();
   String? title;
-  Color? selectedColor = Colors.yellow;
+  Color? selectedColor = Color(0xcc0f0c08);
 
   @override
   Widget build(BuildContext context) {

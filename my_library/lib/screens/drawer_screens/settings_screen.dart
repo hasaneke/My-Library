@@ -12,28 +12,37 @@ class SettingsScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 2,
-                  color: Colors.grey,
-                ),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: const ListTile(
-                leading: CircleAvatar(
-                  child: Icon(Icons.palette),
-                ),
-                title: Text(
-                  'Change theme',
-                  style: TextStyle(fontSize: 25),
-                ),
-              ),
-            ),
-          )
+          settingsItem('Change Theme', Icons.palette, context),
+          settingsItem('Change font style', Icons.font_download, context),
         ],
+      ),
+    );
+  }
+
+  Padding settingsItem(String title, IconData iconData, BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 1,
+            color: Colors.black,
+          ),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: ListTile(
+          leading: CircleAvatar(
+            backgroundColor: context.theme.scaffoldBackgroundColor,
+            child: Icon(
+              iconData,
+              color: Colors.black,
+            ),
+          ),
+          title: Text(
+            title,
+            style: TextStyle(fontSize: 25),
+          ),
+        ),
       ),
     );
   }
