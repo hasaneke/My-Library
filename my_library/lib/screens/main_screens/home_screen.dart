@@ -80,7 +80,7 @@ class HomeScreen extends StatelessWidget {
             category.title!,
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: category.color == Color(0xcc0f0c08)
+                color: category.color == const Color(0xcc0f0c08)
                     ? Colors.white
                     : Colors.black,
                 fontSize: 17),

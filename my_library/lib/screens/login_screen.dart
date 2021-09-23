@@ -19,7 +19,7 @@ class LoginScreen extends GetView<AuthController> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         body: Obx(() {
-          if (controller.user.value == null) {
+          if (controller.isSigningIn.value == false) {
             return SingleChildScrollView(
               child: SizedBox(
                 height: MediaQuery.of(context).size.height,

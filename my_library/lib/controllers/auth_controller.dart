@@ -11,7 +11,7 @@ import 'package:my_library/routes/app_pages.dart';
 class AuthController extends GetxController {
   var user = Rx<User?>(null);
   Timer? _timer;
-
+  RxBool isSigningIn = false.obs;
   /* EMAIL AND PASSWORD SIGN UP */
   Future<void> signUpWithEmailAndPassword(
       String? email, String? password) async {
@@ -50,9 +50,11 @@ class AuthController extends GetxController {
   Future<void> signInWithEmailAndPassword(
       String? email, String? password) async {
     try {
+      isSigningIn.value = true;
       user.value = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email!, password: password!)
           .then((value) {
+        isSigningIn.value = false;
         return value.user;
       });
       if (user.value != null) {
@@ -89,9 +91,10 @@ class AuthController extends GetxController {
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
-
+    isSigningIn.value = true;
     // Once signed in, return the UserCredential
     await FirebaseAuth.instance.signInWithCredential(credential).then((value) {
+      isSigningIn.value = false;
       user.value = value.user;
       Future.delayed(const Duration(seconds: 1), () {
         Get.offAllNamed(Routes.HOME);
