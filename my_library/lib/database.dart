@@ -13,6 +13,7 @@ class DatabaseController extends GetxController {
   // ignore: unused_field
   String? userdId;
   var categories = RxList<Category>([]);
+  RxBool isCategoriesLoading = true.obs;
   Future<void> addCategory({String? title, Color? color, String? path}) async {
     if (path == null) {
       // That means we add it for time
@@ -43,12 +44,15 @@ class DatabaseController extends GetxController {
         .collection('/users/$userdId/categories')
         .get()
         .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        categories.add(Category(
-            title: doc['title'],
-            color: Color(doc['color']),
-            path: doc['path']));
-      });
+      querySnapshot.docs.forEach(
+        (doc) {
+          categories.add(Category(
+              title: doc['title'],
+              color: Color(doc['color']),
+              path: doc['path']));
+        },
+      );
+      isCategoriesLoading.value = false;
     });
     super.onInit();
   }

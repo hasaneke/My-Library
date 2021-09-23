@@ -15,6 +15,7 @@ final Map<String, String> enUs = {
   'not_registered_yet?': 'Not registered yet?',
   'sign_up': 'Sign Up',
   'sign_in': 'Sign in',
+  'sign_out': 'Sign Out',
   'sign_in_with_google': 'Sign in with Google',
   'sign_up_intro': 'FIRST STEP TO YOUR NEW LIBRARY',
   /* Errors part */
@@ -32,7 +33,9 @@ final Map<String, String> enUs = {
   'add_category_title': 'Add Category',
   'category_title': 'Title',
   'pick_a_color': 'Pick a color',
-  'add_category': 'Add'
+  'add_category': 'Add',
+  /* DRAWER */
+  'settings': 'Settings',
 };
 
 final Map<String, String> trTR = {
@@ -46,6 +49,7 @@ final Map<String, String> trTR = {
   'not_registered_yet?': 'Henüz kayıt olmadın mı?',
   'sign_up': 'Kayıt ol',
   'sign_in': 'Giriş Yap',
+  'sign_out': 'Çıkış Yap',
   'sign_in_with_google': 'Google hesabın ile giriş yap',
   /* ERRORS PART */
   'enter_a_password': 'Bir şifre gir',
@@ -62,5 +66,7 @@ final Map<String, String> trTR = {
   'add_category_title': 'Kategori Ekle',
   'category_title': 'Başlık',
   'pick_a_color': 'Renk seç',
-  'add_category': 'Add'
+  'add_category': 'Add',
+  /* DRAWER */
+  'settings': 'Ayarlar',
 };
