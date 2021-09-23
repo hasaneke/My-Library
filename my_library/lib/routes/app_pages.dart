@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
 import 'package:my_library/bindings.dart';
 import 'package:my_library/controllers/auth_controller.dart';
+import 'package:my_library/models/category.dart';
 
 import 'package:my_library/screens/login_screen.dart';
 import 'package:my_library/screens/app_screen_root.dart';
+import 'package:my_library/screens/main_screens/category_detail_screen.dart';
 import 'package:my_library/screens/sign_up_screen.dart';
 
 part 'app_routes.dart';
@@ -24,6 +26,10 @@ class AppPages extends GetxController {
     GetPage(
         name: _Paths.SIGN_UP,
         page: () => SignUpScreen(),
+        binding: SampleBindings()),
+    GetPage(
+        name: _Paths.CATEGORY_DETAIL,
+        page: () => CategoryDetailScreen(),
         binding: SampleBindings())
   ];
 }

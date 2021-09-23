@@ -19,9 +19,9 @@ class AddCategoryDialog extends GetView<DatabaseController> {
     return Form(
       key: _formKey,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
           TextFormField(
+            keyboardType: TextInputType.name,
             decoration: InputDecoration(hintText: 'category_title'.tr),
             onSaved: (value) {
               title = value!;
@@ -40,10 +40,6 @@ class AddCategoryDialog extends GetView<DatabaseController> {
           const SizedBox(
             height: 10,
           ),
-
-          const SizedBox(
-            height: 10,
-          ),
           // Wrap(
           //   direction: Axis.horizontal,
           //   children: Palette.colorbuttons.map<MaterialButton>((e) {
@@ -54,9 +50,9 @@ class AddCategoryDialog extends GetView<DatabaseController> {
             padding: const EdgeInsets.symmetric(
               horizontal: 25,
             ),
-            height: 70,
+            height: 120,
             child: BlockPicker(
-              availableColors: Palette.colorbuttons,
+              availableColors: Palette.colorButtons.values.toList(),
               pickerColor: selectedColor!,
               onColorChanged: (color) {
                 selectedColor = color;
@@ -64,9 +60,6 @@ class AddCategoryDialog extends GetView<DatabaseController> {
             ),
           ),
 
-          const SizedBox(
-            height: 10,
-          ),
           ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
@@ -76,19 +69,10 @@ class AddCategoryDialog extends GetView<DatabaseController> {
               },
               child: Text(
                 'add_category'.tr,
-                style: const TextStyle(color: Colors.black, fontSize: 18),
+                style: TextStyle(color: Colors.black, fontSize: 18),
               ))
         ],
       ),
-    );
-  }
-
-  MaterialButton colorButton(MaterialColor color) {
-    return MaterialButton(
-      onPressed: () {},
-      shape: const CircleBorder(),
-      color: color,
-      child: const Icon(Icons.check),
     );
   }
 }
