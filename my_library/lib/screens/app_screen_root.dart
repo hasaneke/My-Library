@@ -54,7 +54,7 @@ class AppRootScreen extends GetView<AppScreenRootController> {
           );
         }
       } else {
-        return ExitScreen();
+        return const ExitScreen();
       }
     });
   }

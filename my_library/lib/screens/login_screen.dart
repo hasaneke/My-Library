@@ -1,12 +1,8 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/button_view.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:my_library/controllers/auth_controller.dart';
 import 'package:my_library/routes/app_pages.dart';
-import 'package:my_library/screens/sign_up_screen.dart';
 
 final _formKey = GlobalKey<FormState>();
 
@@ -15,7 +11,6 @@ class LoginScreen extends GetView<AuthController> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> _formKey = GlobalKey();
     return Scaffold(
         extendBodyBehindAppBar: true,
         body: Obx(() {
@@ -50,7 +45,7 @@ class LoginScreen extends GetView<AuthController> {
         ),
         Text(
           'login_intro'.tr,
-          style: TextStyle(fontSize: 27),
+          style: const TextStyle(fontSize: 27),
         ),
         Container(
           width: 25,
@@ -66,6 +61,8 @@ class AuthWidget extends GetView<AuthController> {
   final Map<String, String> _authData = {'email': '', 'password': ''};
   final _focuseNode1 = FocusNode();
   final _focuseNode2 = FocusNode();
+
+  AuthWidget({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -122,7 +119,7 @@ class AuthWidget extends GetView<AuthController> {
                                       _authData['email'] = value!;
                                     },
                                   ),
-                                  Divider(),
+                                  const Divider(),
                                   TextFormField(
                                     focusNode: _focuseNode2,
                                     textInputAction: TextInputAction.done,
@@ -138,7 +135,7 @@ class AuthWidget extends GetView<AuthController> {
                                     validator: (value) {
                                       if (value!.isEmpty) {
                                         Get.showSnackbar(GetBar(
-                                          duration: Duration(seconds: 2),
+                                          duration: const Duration(seconds: 2),
                                           message: 'enter_a_password'.tr,
                                         ));
                                       }
@@ -155,7 +152,7 @@ class AuthWidget extends GetView<AuthController> {
                               children: [
                                 Text(
                                   'not_registered_yet?'.tr,
-                                  style: TextStyle(fontSize: 15),
+                                  style: const TextStyle(fontSize: 15),
                                 ),
                                 TextButton(
                                   onPressed: () {
@@ -183,7 +180,7 @@ class AuthWidget extends GetView<AuthController> {
                                 },
                                 child: Text(
                                   'sign_in'.tr,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Colors.black, fontSize: 20),
                                 )),
                           ],

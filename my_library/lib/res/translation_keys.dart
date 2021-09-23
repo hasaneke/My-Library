@@ -1,5 +1,3 @@
-import 'package:get/get.dart';
-
 abstract class AppTranslation {
   static Map<String, Map<String, String>> translationKeys = {
     'en_US': enUs,

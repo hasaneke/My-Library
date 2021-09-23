@@ -1,7 +1,7 @@
+// ignore_for_file: constant_identifier_names, prefer_const_constructors
+
 import 'package:get/get.dart';
 import 'package:my_library/bindings.dart';
-import 'package:my_library/controllers/auth_controller.dart';
-import 'package:my_library/models/category.dart';
 import 'package:my_library/screens/drawer_screens/settings_screen.dart';
 
 import 'package:my_library/screens/login_screen.dart';

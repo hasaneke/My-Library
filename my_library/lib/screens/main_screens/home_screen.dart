@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/context_extensions.dart';
@@ -46,7 +44,7 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                    padding: EdgeInsets.only(top: 15, bottom: 15),
+                    padding: const EdgeInsets.only(top: 15, bottom: 15),
                     child: Center(
                         child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,7 +56,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         Text(
                           'my_library'.tr,
-                          style: TextStyle(fontSize: 27),
+                          style: const TextStyle(fontSize: 27),
                         ),
                         Container(
                           width: 20,

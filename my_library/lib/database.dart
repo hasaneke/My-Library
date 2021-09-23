@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_function_literals_in_foreach_calls
+
 import 'dart:developer';
 import 'dart:ui';
 
@@ -17,7 +19,7 @@ class DatabaseController extends GetxController {
   Future<void> addCategory({String? title, Color? color, String? path}) async {
     if (path == null) {
       // That means we add it for time
-      var uId = Uuid().v1();
+      var uId = const Uuid().v1();
       FirebaseFirestore.instance
           .collection('/users/$userdId/categories')
           .doc(uId)

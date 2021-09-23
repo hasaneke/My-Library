@@ -26,10 +26,10 @@ class SignUpScreen extends GetView<AuthController> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(bottom: 70),
+                  padding: const EdgeInsets.only(bottom: 70),
                   child: Text(
                     'sign_up_intro'.tr,
-                    style: TextStyle(fontSize: 24),
+                    style: const TextStyle(fontSize: 24),
                   ),
                 ),
                 Padding(
@@ -95,7 +95,8 @@ class SignUpScreen extends GetView<AuthController> {
                           _authData['email'], _authData['password']);
                     },
                     child: Text('${'sign_up'.tr}!',
-                        style: TextStyle(color: Colors.black, fontSize: 20)),
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 20)),
                     style: context.theme.elevatedButtonTheme.style,
                   ),
                 ),

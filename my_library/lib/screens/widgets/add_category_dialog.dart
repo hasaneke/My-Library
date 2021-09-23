@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +10,9 @@ import 'package:my_library/res/custom_colors.dart';
 class AddCategoryDialog extends GetView<DatabaseController> {
   final _formKey = GlobalKey<FormState>();
   String? title;
-  Color? selectedColor = Color(0xcc0f0c08);
+  Color? selectedColor = const Color(0xcc0f0c08);
+
+  AddCategoryDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class AddCategoryDialog extends GetView<DatabaseController> {
             validator: (value) {
               if (value!.isEmpty) {
                 Get.showSnackbar(GetBar(
-                  duration: Duration(seconds: 1),
+                  duration: const Duration(seconds: 1),
                   message: 'Enter a title',
                 ));
                 return 'empty';
@@ -69,7 +69,7 @@ class AddCategoryDialog extends GetView<DatabaseController> {
               },
               child: Text(
                 'add_category'.tr,
-                style: TextStyle(color: Colors.black, fontSize: 18),
+                style: const TextStyle(color: Colors.black, fontSize: 18),
               ))
         ],
       ),
