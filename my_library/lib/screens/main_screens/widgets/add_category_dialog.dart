@@ -11,9 +11,9 @@ class AddCategoryDialog extends GetView<DatabaseController> {
   final _formKey = GlobalKey<FormState>();
   String? title;
   Color? selectedColor = const Color(0xcc0f0c08);
-
-  AddCategoryDialog({Key? key}) : super(key: key);
-
+  String? path;
+  AddCategoryDialog({this.path});
+  var firstTimeClikced = false.obs;
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -60,17 +60,26 @@ class AddCategoryDialog extends GetView<DatabaseController> {
             ),
           ),
 
-          ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
-                  controller.addCategory(title: title, color: selectedColor);
-                }
-              },
-              child: Text(
-                'add_category'.tr,
-                style: const TextStyle(color: Colors.black, fontSize: 18),
-              ))
+          Container(
+            padding: EdgeInsets.only(top: 15),
+            child: Obx(() {
+              return ElevatedButton(
+                  onPressed: firstTimeClikced.value == false
+                      ? () {
+                          firstTimeClikced.value = true;
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            controller.addCategory(
+                                title: title, color: selectedColor, path: path);
+                          }
+                        }
+                      : null,
+                  child: Text(
+                    'add_category'.tr,
+                    style: const TextStyle(color: Colors.black, fontSize: 18),
+                  ));
+            }),
+          )
         ],
       ),
     );

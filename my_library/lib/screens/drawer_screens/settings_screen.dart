@@ -1,5 +1,8 @@
+
 import 'package:flutter/material.dart';
+
 import 'package:get/get_utils/src/extensions/context_extensions.dart';
+import 'package:get/get.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -14,37 +17,61 @@ class SettingsScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          settingsItem('Change Theme', Icons.palette, context),
-          settingsItem('Change font style', Icons.font_download, context),
+          SettingsItem(
+            title: 'Change Theme',
+            iconData: Icons.palette,
+          ),
+          SettingsItem(
+              title: 'Change font style', iconData: Icons.font_download)
         ],
       ),
     );
   }
+}
 
-  Padding settingsItem(String title, IconData iconData, BuildContext context) {
+class SettingsItem extends StatelessWidget {
+  String? title;
+  IconData? iconData;
+  Widget? widget;
+  SettingsItem({@required this.title, @required this.iconData, this.widget});
+  var isOpened = false.obs;
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 1,
-            color: Colors.black,
-          ),
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: ListTile(
-          leading: CircleAvatar(
-            backgroundColor: context.theme.scaffoldBackgroundColor,
-            child: Icon(
-              iconData,
-              color: Colors.black,
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                width: 1,
+                color: Colors.black,
+              ),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Column(
+              children: [
+                ListTile(
+                  onTap: () => isOpened.value = !isOpened.value,
+                  leading: CircleAvatar(
+                    backgroundColor: context.theme.scaffoldBackgroundColor,
+                    child: Icon(
+                      iconData,
+                      color: Colors.black,
+                    ),
+                  ),
+                  title: Text(
+                    title!,
+                    style: const TextStyle(fontSize: 25),
+                  ),
+                ),
+                widget != null
+                    ? Obx(() => isOpened.value ? widget! : Container())
+                    : Container(),
+              ],
             ),
           ),
-          title: Text(
-            title,
-            style: const TextStyle(fontSize: 25),
-          ),
-        ),
+        ],
       ),
     );
   }

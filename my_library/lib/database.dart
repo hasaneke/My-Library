@@ -15,11 +15,11 @@ class DatabaseController extends GetxController {
   // ignore: unused_field
   String? userdId;
   var categories = RxList<Category>([]);
-  RxBool isCategoriesLoading = true.obs;
+  RxBool isCategoriesLoading = false.obs;
   Future<void> addCategory({String? title, Color? color, String? path}) async {
+    var uId = const Uuid().v1();
     if (path == null) {
       // That means we add it for time
-      var uId = const Uuid().v1();
       FirebaseFirestore.instance
           .collection('/users/$userdId/categories')
           .doc(uId)
@@ -36,6 +36,24 @@ class DatabaseController extends GetxController {
         log(newCategory.title!);
         Get.back();
       });
+    } else {
+      FirebaseFirestore.instance
+          .doc(path)
+          .collection('categories')
+          .doc(uId)
+          .set({
+        'title': title,
+        'color': color!.value,
+        'path': '$path/categories/$uId',
+      }).then((value) {
+        Category newCategory =
+            Category(color: color, title: title, path: '$path/categories/$uId');
+        categories
+            .firstWhere((category) => category.path == path)
+            .altCategories!
+            .add(newCategory);
+        Get.back();
+      });
     }
   }
 
@@ -48,14 +66,19 @@ class DatabaseController extends GetxController {
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach(
         (doc) {
-          categories.add(Category(
-              title: doc['title'],
-              color: Color(doc['color']),
-              path: doc['path']));
+          String path = doc.reference.path;
+          var newCategory = Category(
+            title: doc['title'],
+            color: Color(doc['color']),
+            path: path,
+          );
+
+          categories.add(newCategory);
         },
       );
       isCategoriesLoading.value = false;
     });
+    log(categories[2].altCategories!.isEmpty.toString());
     super.onInit();
   }
 }

@@ -35,6 +35,9 @@ final Map<String, String> enUs = {
   'add_category': 'Add',
   /* DRAWER */
   'settings': 'Settings',
+  /* Settings screen */
+  'change_theme': 'Change Theme',
+  'change_font_style': 'Change font style'
 };
 
 final Map<String, String> trTR = {
@@ -69,4 +72,7 @@ final Map<String, String> trTR = {
   'add_category': 'Add',
   /* DRAWER */
   'settings': 'Ayarlar',
+  /* Settings screen */
+  'change_theme': 'Tema Değiştir',
+  'change_font_style': 'Font tarzını değiştir'
 };

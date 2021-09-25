@@ -6,7 +6,7 @@ import 'package:my_library/database.dart';
 import 'package:my_library/models/category.dart';
 import 'package:my_library/res/custom_colors.dart';
 import 'package:my_library/routes/app_pages.dart';
-import 'package:my_library/screens/widgets/add_category_dialog.dart';
+import 'package:my_library/screens/main_screens/widgets/add_category_dialog.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
