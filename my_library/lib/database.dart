@@ -4,81 +4,85 @@ import 'dart:developer';
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:my_library/controllers/auth_controller.dart';
+import 'package:my_library/controllers/category_detail_screen_controller.dart';
 import 'package:my_library/models/category.dart';
 
 import 'package:uuid/uuid.dart';
 
 class DatabaseController extends GetxController {
-  // ignore: unused_field
-  String? userdId;
+  late AuthController authController;
+  late CategoryDetailScreenController categoryDetailScreenController;
   var categories = RxList<Category>([]);
-  RxBool isCategoriesLoading = false.obs;
-  Future<void> addCategory({String? title, Color? color, String? path}) async {
-    var uId = const Uuid().v1();
-    if (path == null) {
-      // That means we add it for time
-      FirebaseFirestore.instance
-          .collection('/users/$userdId/categories')
-          .doc(uId)
+  var isCategoriesLoading = false.obs;
+  late String userId;
+
+  void addCategory({
+    @required String? title,
+    @required Color? color,
+  }) async {
+    String uniqueId = Uuid().v1();
+
+    try {
+      await FirebaseFirestore.instance
+          .doc('users/$userId/categories/$uniqueId')
           .set({
         'title': title,
         'color': color!.value,
-        'path': '/users/$userdId/categories/$uId',
       }).then((value) {
-        Category newCategory = Category(
-            color: color,
+        categories.add(Category(
             title: title,
-            path: '/users/$userdId/categories/$uId');
-        categories.add(newCategory);
-        log(newCategory.title!);
+            color: color,
+            path: 'users/$userId/categories/$uniqueId'));
         Get.back();
       });
-    } else {
-      FirebaseFirestore.instance
-          .doc(path)
-          .collection('categories')
-          .doc(uId)
-          .set({
-        'title': title,
-        'color': color!.value,
-        'path': '$path/categories/$uId',
-      }).then((value) {
-        Category newCategory =
-            Category(color: color, title: title, path: '$path/categories/$uId');
-        categories
-            .firstWhere((category) => category.path == path)
-            .altCategories!
-            .add(newCategory);
-        Get.back();
-      });
+    } on Exception catch (e) {
+      log(e.toString());
     }
+  }
+
+  void addAltCategory(String? title, Color? color, Category? category) async {
+    String uniqueId = Uuid().v1();
+    await FirebaseFirestore.instance
+        .collection('${category!.path}/categories')
+        .doc(uniqueId)
+        .set({
+      'title': title,
+      'color': color!.value,
+    }).then((value) {
+      final newCategory = Category(
+          title: title,
+          color: color,
+          path: '${category.path}/categories/$uniqueId');
+      category.alt_categories.add(newCategory);
+
+      Get.back();
+    });
   }
 
   @override
   void onInit() async {
-    userdId = Get.put(AuthController()).user.value!.uid;
+    authController = Get.put(AuthController());
+    categoryDetailScreenController = Get.put(CategoryDetailScreenController());
+    userId = authController.user.value!.uid;
+    isCategoriesLoading.value = true;
+
     await FirebaseFirestore.instance
-        .collection('/users/$userdId/categories')
+        .collection('/users/$userId/categories/')
         .get()
         .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach(
-        (doc) {
-          String path = doc.reference.path;
-          var newCategory = Category(
+      querySnapshot.docs.forEach((doc) {
+        categories.add(Category(
             title: doc['title'],
             color: Color(doc['color']),
-            path: path,
-          );
+            path: doc.reference.path));
+      });
 
-          categories.add(newCategory);
-        },
-      );
       isCategoriesLoading.value = false;
     });
-    log(categories[2].altCategories!.isEmpty.toString());
     super.onInit();
   }
 }

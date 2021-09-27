@@ -5,8 +5,11 @@ import 'package:my_library/controllers/auth_controller.dart';
 import 'package:my_library/database.dart';
 import 'package:my_library/models/category.dart';
 import 'package:my_library/res/custom_colors.dart';
-import 'package:my_library/routes/app_pages.dart';
+
+import 'package:my_library/screens/main_screens/category_detail_screen.dart';
 import 'package:my_library/screens/main_screens/widgets/add_category_dialog.dart';
+import 'package:my_library/screens/main_screens/widgets/category_gridview.dart';
+import 'package:my_library/routes/app_pages.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -91,58 +94,22 @@ class HomeScreen extends StatelessWidget {
         body: Obx(
           () {
             if (databaseController.isCategoriesLoading.value) {
-              return Center(
+              return const Center(
                   child: CircularProgressIndicator(
-                color: Palette.colorButtons['black'],
+                color: Colors.black,
               ));
             } else {
-              final List categories =
-                  databaseController.categories.map((category) {
-                return categoryItem(category);
-              }).toList();
-              return categoryGridView(categories, context);
+              if (databaseController.categories.isNotEmpty) {
+                return CategoryGridView(databaseController.categories);
+              } else {
+                return const Center(
+                    child: (Text(
+                  'Empty',
+                  style: TextStyle(color: Colors.black),
+                )));
+              }
             }
           },
         ));
-  }
-
-  Padding categoryGridView(List<dynamic> categories, BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 15, right: 15),
-      child: GridView.builder(
-        itemBuilder: (BuildContext context, index) {
-          return categories[index];
-        },
-        itemCount: categories.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisSpacing: 25,
-            mainAxisSpacing: 25,
-            crossAxisCount: 3,
-            childAspectRatio: 1),
-      ),
-    );
-  }
-
-  GestureDetector categoryItem(Category category) {
-    return GestureDetector(
-      onTap: () {
-        Get.toNamed(Routes.CATEGORY_DETAIL, arguments: category);
-      },
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15), color: category.color!),
-        child: Center(
-          child: Text(
-            category.title!,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: category.color == const Color(0xcc0f0c08)
-                    ? Colors.white
-                    : Colors.black,
-                fontSize: 17),
-          ),
-        ),
-      ),
-    );
   }
 }

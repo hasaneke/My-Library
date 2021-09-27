@@ -5,14 +5,15 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:my_library/database.dart';
 
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:my_library/models/category.dart';
 import 'package:my_library/res/custom_colors.dart';
 
 class AddCategoryDialog extends GetView<DatabaseController> {
   final _formKey = GlobalKey<FormState>();
   String? title;
   Color? selectedColor = const Color(0xcc0f0c08);
-  String? path;
-  AddCategoryDialog({this.path});
+  Category? category;
+  AddCategoryDialog({this.category});
   var firstTimeClikced = false.obs;
   @override
   Widget build(BuildContext context) {
@@ -61,7 +62,7 @@ class AddCategoryDialog extends GetView<DatabaseController> {
           ),
 
           Container(
-            padding: EdgeInsets.only(top: 15),
+            padding: const EdgeInsets.only(top: 15),
             child: Obx(() {
               return ElevatedButton(
                   onPressed: firstTimeClikced.value == false
@@ -69,8 +70,20 @@ class AddCategoryDialog extends GetView<DatabaseController> {
                           firstTimeClikced.value = true;
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
-                            controller.addCategory(
-                                title: title, color: selectedColor, path: path);
+                            if (category == null) {
+                              controller.addCategory(
+                                title: title,
+                                color: selectedColor,
+                              );
+                            } else {
+                              if (category == null) {
+                                controller.addCategory(
+                                    title: title, color: selectedColor);
+                              } else {
+                                controller.addAltCategory(
+                                    title, selectedColor, category);
+                              }
+                            }
                           }
                         }
                       : null,

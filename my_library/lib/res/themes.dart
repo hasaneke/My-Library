@@ -3,6 +3,9 @@ import 'package:my_library/res/font_styles.dart';
 
 abstract class Themes {
   static final limetheme = ThemeData(
+    popupMenuTheme: PopupMenuThemeData(
+        textStyle: TextStyle(color: Colors.black, fontSize: 15),
+        color: Colors.lime[50]),
     unselectedWidgetColor: Colors.black45,
     selectedRowColor: Colors.black,
     scaffoldBackgroundColor: Colors.lime[50],

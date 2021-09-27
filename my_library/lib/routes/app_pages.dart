@@ -2,6 +2,7 @@
 
 import 'package:get/get.dart';
 import 'package:my_library/bindings.dart';
+import 'package:my_library/models/category.dart';
 import 'package:my_library/screens/drawer_screens/settings_screen.dart';
 
 import 'package:my_library/screens/login_screen.dart';
@@ -28,13 +29,17 @@ class AppPages extends GetxController {
         name: _Paths.SIGN_UP,
         page: () => SignUpScreen(),
         binding: SampleBindings()),
+    // GetPage(
+    //     name: _Paths.CATEGORY_DETAIL,
+    //     page: () => CategoryDetailScreen(_),
+    //     binding: SampleBindings()),
+    GetPage(
+        name: _Paths.SETTINGS,
+        page: () => SettingsScreen(),
+        binding: SampleBindings()),
     GetPage(
         name: _Paths.CATEGORY_DETAIL,
         page: () => CategoryDetailScreen(),
         binding: SampleBindings()),
-    GetPage(
-        name: _Paths.SETTINGS,
-        page: () => SettingsScreen(),
-        binding: SampleBindings())
   ];
 }
