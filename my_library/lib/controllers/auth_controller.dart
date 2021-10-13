@@ -53,7 +53,6 @@ class AuthController extends GetxController {
       user.value = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email!, password: password!)
           .then((value) {
-        isSigningIn.value = false;
         return value.user;
       });
       if (user.value != null) {
@@ -93,7 +92,6 @@ class AuthController extends GetxController {
     isSigningIn.value = true;
     // Once signed in, return the UserCredential
     await FirebaseAuth.instance.signInWithCredential(credential).then((value) {
-      isSigningIn.value = false;
       user.value = value.user;
       Future.delayed(const Duration(seconds: 1), () {
         Get.offAllNamed(Routes.HOME);
@@ -108,6 +106,7 @@ class AuthController extends GetxController {
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut().then((value) {
       user.value = null;
+      isSigningIn.value = false;
       if (_timer != null) {
         _timer!.cancel();
       }

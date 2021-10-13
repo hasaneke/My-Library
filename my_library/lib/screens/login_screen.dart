@@ -144,9 +144,6 @@ class AuthWidget extends GetView<AuthController> {
                                 ],
                               ),
                             ),
-                            const SizedBox(
-                              height: 25,
-                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -159,10 +156,10 @@ class AuthWidget extends GetView<AuthController> {
                                     Get.toNamed(Routes.SIGN_UP,
                                         preventDuplicates: true);
                                   },
-                                  child: Text(
-                                    'sign_up'.tr,
-                                    style: context.theme.textTheme.bodyText1,
-                                  ),
+                                  child: Text('${'sign_up'.tr}!',
+                                      style: const TextStyle(
+                                          color: Colors.purpleAccent,
+                                          fontSize: 18)),
                                 )
                               ],
                             ),
@@ -181,7 +178,7 @@ class AuthWidget extends GetView<AuthController> {
                                 child: Text(
                                   'sign_in'.tr,
                                   style: const TextStyle(
-                                      color: Colors.black, fontSize: 20),
+                                      color: Colors.black, fontSize: 22),
                                 )),
                           ],
                         ),

@@ -81,7 +81,7 @@ class AddCategoryDialog extends GetView<DatabaseController> {
                                     title: title, color: selectedColor);
                               } else {
                                 controller.addAltCategory(
-                                    title, selectedColor, category);
+                                    title, selectedColor, category!);
                               }
                             }
                           }

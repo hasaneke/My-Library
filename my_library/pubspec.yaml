@@ -50,6 +50,7 @@ dependencies:
   uuid: ^3.0.4
   flutter_colorpicker: ^0.6.0
   flutter_material_color_picker: ^1.1.0+2
+  firebase_storage: ^10.0.5
 
 dev_dependencies:
   flutter_test:

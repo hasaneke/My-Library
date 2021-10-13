@@ -37,7 +37,16 @@ final Map<String, String> enUs = {
   'settings': 'Settings',
   /* Settings screen */
   'change_theme': 'Change Theme',
-  'change_font_style': 'Change font style'
+  'change_font_style': 'Change font style',
+  /*POP UP MENU*/
+  'edit': 'Edit',
+  'delete': 'Delete',
+  'add': 'Add',
+  /* ADD ITEM SCREEN */
+  'title': 'Title',
+  'short_exp': 'Short Explanation',
+  'long_exp': 'Long explanation',
+  'add_card': 'Add Card'
 };
 
 final Map<String, String> trTR = {
@@ -74,5 +83,14 @@ final Map<String, String> trTR = {
   'settings': 'Ayarlar',
   /* Settings screen */
   'change_theme': 'Tema Değiştir',
-  'change_font_style': 'Font tarzını değiştir'
+  'change_font_style': 'Font tarzını değiştir',
+  /*POP UP MENU*/
+  'edit': 'Düzenle',
+  'delete': 'Sil',
+  'add': 'Ekle',
+  /* ADD ITEM SCREEN*/
+  'title': 'Başlık',
+  'short_exp': 'Kısa Açıklama',
+  'long_exp': 'Uzun Açıklama',
+  'add_card': 'Kart Ekle'
 };
