@@ -3,10 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/context_extensions.dart';
 import 'package:my_library/controllers/auth_controller.dart';
 import 'package:my_library/database.dart';
-import 'package:my_library/models/category.dart';
-import 'package:my_library/res/custom_colors.dart';
 
-import 'package:my_library/screens/main_screens/category_detail_screen.dart';
 import 'package:my_library/screens/main_screens/widgets/add_category_dialog.dart';
 import 'package:my_library/screens/main_screens/widgets/category_gridview.dart';
 import 'package:my_library/routes/app_pages.dart';
@@ -71,7 +68,7 @@ class HomeScreen extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.settings),
                   title: Text('settings'.tr,
-                      style: context.theme.textTheme.bodyText2),
+                      style: context.theme.textTheme.bodyText1),
                   onTap: () {
                     Get.toNamed(Routes.SETTINGS);
                   },
@@ -82,7 +79,7 @@ class HomeScreen extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.exit_to_app),
                   title: Text('sign_out'.tr,
-                      style: context.theme.textTheme.bodyText2),
+                      style: context.theme.textTheme.bodyText1),
                   onTap: () {
                     authController.signOut();
                   },

@@ -14,23 +14,26 @@ class CategoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final category_controller = Get.put(category, tag: category.path);
+    Category category_controller = Get.put(category, tag: category.path);
     log('created');
     return GestureDetector(
       onTap: () async {
-        if (!category.isFetched.value) {
-          category_controller.fetchData(category.path).then((value) {
+        if (!category_controller.isFetched) {
+          category_controller.fetchData().then((value) {
+            category.isFetched = true;
             Get.to(() => CategoryDetailScreen(),
-                preventDuplicates: false, arguments: category);
+                preventDuplicates: false, arguments: category_controller.path);
           });
         } else {
           Get.to(() => CategoryDetailScreen(),
-              preventDuplicates: false, arguments: category);
+              preventDuplicates: false,
+              arguments: category_controller.path as String);
         }
       },
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15), color: category.color!),
+            borderRadius: BorderRadius.circular(15),
+            color: category_controller.color!),
         child: Center(
             child: Obx(
           () => Text(
@@ -40,7 +43,7 @@ class CategoryItem extends StatelessWidget {
                 color: category.color == const Color(0xcc0f0c08)
                     ? Colors.white
                     : Colors.black,
-                fontSize: 17),
+                fontSize: 15),
           ),
         )),
       ),

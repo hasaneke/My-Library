@@ -1,10 +1,12 @@
 import 'package:get/get.dart';
+import 'package:my_library/controllers/add_screen_controller.dart';
 import 'package:my_library/controllers/auth_controller.dart';
 
 import 'package:my_library/controllers/app_root_screen_controller.dart';
 import 'package:my_library/controllers/category_detail_screen_controller.dart';
 
 import 'package:my_library/database.dart';
+import 'package:my_library/models/category.dart';
 
 class SampleBindings extends Bindings {
   @override
@@ -14,5 +16,7 @@ class SampleBindings extends Bindings {
     Get.lazyPut<DatabaseController>(() => DatabaseController());
     Get.lazyPut<CategoryDetailScreenController>(
         () => CategoryDetailScreenController());
+    Get.lazyPut<Category>(() => Category());
+    Get.lazyPut<AddCardScreenController>(() => AddCardScreenController());
   }
 }

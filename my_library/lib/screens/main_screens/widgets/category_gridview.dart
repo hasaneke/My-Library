@@ -5,13 +5,12 @@ import 'package:my_library/models/category.dart';
 import 'category_item.dart';
 
 class CategoryGridView extends StatelessWidget {
-  List<Category> alt_categories;
+  List<Category?> alt_categories = [];
   CategoryGridView(this.alt_categories);
   @override
   Widget build(BuildContext context) {
-    final List<CategoryItem> categories =
-        alt_categories.map<CategoryItem>((category) {
-      return CategoryItem(category);
+    List<CategoryItem> categories = alt_categories.map((category) {
+      return CategoryItem(category!);
     }).toList();
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15),
@@ -19,11 +18,13 @@ class CategoryGridView extends StatelessWidget {
         itemBuilder: (BuildContext context, index) {
           return categories[index];
         },
+        controller: ScrollController(keepScrollOffset: true),
+        shrinkWrap: true,
         itemCount: categories.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisSpacing: 25,
-            mainAxisSpacing: 25,
-            crossAxisCount: 3,
+            crossAxisSpacing: 20,
+            mainAxisSpacing: 20,
+            crossAxisCount: 4,
             childAspectRatio: 1),
       ),
     );

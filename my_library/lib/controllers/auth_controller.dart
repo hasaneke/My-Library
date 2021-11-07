@@ -55,10 +55,10 @@ class AuthController extends GetxController {
           .then((value) {
         return value.user;
       });
-      if (user.value != null) {
-        Future.delayed(const Duration(seconds: 1), () {
-          Get.offAllNamed(Routes.HOME);
-        });
+      if (user.value.isBlank != null) {
+        // Future.delayed(const Duration(seconds: 1), () {
+        //   Get.offAllNamed(Routes.HOME);
+        // });
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

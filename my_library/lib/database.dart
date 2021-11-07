@@ -1,11 +1,14 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
 
 import 'dart:developer';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:my_library/controllers/auth_controller.dart';
 
@@ -47,27 +50,6 @@ class DatabaseController extends GetxController {
     }
   }
 
-  void addAltCategory(String? title, Color? color, Category category) async {
-    final Category category_controller = Get.find(tag: category.path);
-    String uniqueId = Uuid().v1();
-    await FirebaseFirestore.instance
-        .collection('${category.path}/categories')
-        .doc(uniqueId)
-        .set({
-      'title': title,
-      'color': color!.value,
-    }).then((value) {
-      final newCategory = Category(
-          title: RxString(title!),
-          color: color,
-          previous_path: category.path,
-          path: '${category.path}/categories/$uniqueId');
-      category_controller.alt_categories.add(newCategory);
-
-      Get.back();
-    });
-  }
-
   void deleteCategory(Category category) async {
     await FirebaseFirestore.instance
         .doc(category.path!)
@@ -84,12 +66,14 @@ class DatabaseController extends GetxController {
         });
       }
       if (category.previous_path == null) {
-        category.alt_categories.clear();
         categories.remove(category);
         Get.back();
       } else {
-        final Category controller = Get.find(tag: category.previous_path);
-        controller.alt_categories.remove(category);
+        final Category category_controller = Get.find(tag: category.path);
+        category_controller.alt_categories.clear();
+        final Category previous_category =
+            Get.find(tag: category.previous_path);
+        previous_category.alt_categories.remove(category);
         Get.back();
       }
     });
@@ -103,7 +87,8 @@ class DatabaseController extends GetxController {
     choosenCategory.title!.value = newTitle;
   }
 
-  Future<void> addCard(Map<String, RxString> values, String path) async {
+  Future<void> addCard(Map<String, RxString> values, String path,
+      RxList<XFile> selectedImages) async {
     String uniqueId = Uuid().v1();
     isItemLoading.value = true;
     try {
@@ -124,13 +109,33 @@ class DatabaseController extends GetxController {
           longExp: values['long_exp'],
           dateTime: DateTime.now(),
         );
-        category_controller.cards.add(newCard);
-        isItemLoading.value = false;
-        Get.back();
+        RxList<Image> convertedToImage = selectedImages
+            .map((element) => Image.file(File(element.path)))
+            .toList()
+            .obs;
+        newCard.images = convertedToImage;
+        selectedImages.forEach((element) {
+          log('image is uploaded');
+          uploadImage('$path/items/$uniqueId/images', element).then((value) {
+            category_controller.cards.add(newCard);
+
+            isItemLoading.value = false;
+            Get.back();
+          });
+        });
       });
     } on Exception catch (e) {
       log(e.toString());
     }
+  }
+
+  Future<void> uploadImage(String path, XFile? xFile) async {
+    var idForImage = Uuid().v1();
+    var pathForImage = '$path/$idForImage';
+    final ref = FirebaseStorage.instance.ref(pathForImage);
+
+    File image = File(xFile!.path);
+    await ref.putFile(image);
   }
 
   @override

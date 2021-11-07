@@ -24,13 +24,15 @@ class AppRootScreen extends GetView<AppScreenRootController> {
             body: controller.pages[controller.selectedTabIndex.value],
             backgroundColor: context.theme.scaffoldBackgroundColor,
             bottomNavigationBar: BottomNavigationBar(
+                iconSize: 18,
                 unselectedIconTheme: context.theme.iconTheme,
                 elevation: 0,
-                selectedLabelStyle: const TextStyle(fontSize: 17),
+                selectedLabelStyle: const TextStyle(fontSize: 15),
                 currentIndex: controller.selectedTabIndex.value,
                 selectedItemColor: context.theme.selectedRowColor,
                 onTap: (index) => controller.changeTab(index),
                 backgroundColor: context.theme.scaffoldBackgroundColor,
+                unselectedLabelStyle: TextStyle(fontSize: 12),
                 items: [
                   BottomNavigationBarItem(
                       icon: Icon(
