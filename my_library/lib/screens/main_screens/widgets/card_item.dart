@@ -19,31 +19,32 @@ class CardItem extends StatelessWidget {
       child: Obx(
         () => ListTile(
           onTap: () {
-            card.isFetched
-                ? Get.to(() => CardDetailScreen(), arguments: card)
-                : card.fetchImages().then((value) =>
-                    Get.to(() => CardDetailScreen(), arguments: card));
+            controller.isFetched
+                ? Get.to(() => CardDetailScreen(), arguments: controller.path)
+                : card.fetchImages().then((value) => Get.to(
+                    () => CardDetailScreen(),
+                    arguments: controller.path));
           },
           leading: controller.images.isNotEmpty
               ? CircleAvatar(
-                  backgroundImage: card.images.first.image,
+                  backgroundImage: controller.images.first.image,
                   backgroundColor: Colors.transparent)
               : null,
           title: Text(
-            card.title!.value,
+            controller.title!.value,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: context.textTheme.bodyText2,
           ),
-          subtitle: card.shortExp!.value != ''
+          subtitle: controller.shortExp!.value != ''
               ? Text(
-                  card.shortExp!.value,
+                  controller.shortExp!.value,
                   overflow: TextOverflow.ellipsis,
                   style: context.textTheme.subtitle1,
                 )
               : null,
           trailing: Text(
-            DateFormat.yMMMEd().format(card.dateTime!),
+            DateFormat.yMMMEd().format(controller.dateTime!),
             style: context.textTheme.overline,
           ),
         ),

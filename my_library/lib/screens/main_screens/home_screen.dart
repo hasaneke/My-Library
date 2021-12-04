@@ -11,7 +11,9 @@ import 'package:my_library/routes/app_pages.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
   final authController = Get.put(AuthController());
-  final databaseController = Get.put(DatabaseController());
+  final databaseController = Get.put(
+    DatabaseController(),
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(

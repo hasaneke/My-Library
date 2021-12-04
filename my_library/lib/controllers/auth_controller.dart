@@ -12,16 +12,17 @@ class AuthController extends GetxController {
   Timer? _timer;
   RxBool isSigningIn = false.obs;
   /* EMAIL AND PASSWORD SIGN UP */
+  UserCredential? userCredential;
   Future<void> signUpWithEmailAndPassword(
       String? email, String? password) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
+      userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email!, password: password!);
-      if (userCredential.user != null) {
-        user.value = userCredential.user!;
+      if (userCredential!.user != null) {
+        user.value = userCredential!.user!;
         Get.offAllNamed(Routes.HOME);
         startTimer();
-        userCredential.user!.sendEmailVerification();
+        userCredential!.user!.sendEmailVerification();
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -37,9 +38,8 @@ class AuthController extends GetxController {
         ));
       }
     } catch (e) {
-      log(e.toString());
       Get.showSnackbar(GetBar(
-        message: 'The account already exist for that email',
+        message: e.toString(),
         duration: const Duration(seconds: 1),
       ));
     }
@@ -55,11 +55,7 @@ class AuthController extends GetxController {
           .then((value) {
         return value.user;
       });
-      if (user.value.isBlank != null) {
-        // Future.delayed(const Duration(seconds: 1), () {
-        //   Get.offAllNamed(Routes.HOME);
-        // });
-      }
+      sendEmailVertification();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         Get.showSnackbar(GetBar(
@@ -72,6 +68,11 @@ class AuthController extends GetxController {
           message: 'Wrong password or email',
         ));
       }
+    } catch (e) {
+      Get.showSnackbar(GetBar(
+        message: e.toString(),
+        duration: Duration(seconds: 3),
+      ));
     }
   }
 
@@ -116,6 +117,10 @@ class AuthController extends GetxController {
     });
   }
 
+  Future<void> sendEmailVertification() async {
+    user.value!.sendEmailVerification();
+  }
+
   void startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
       FirebaseAuth.instance.currentUser!.reload();
@@ -134,6 +139,7 @@ class AuthController extends GetxController {
     if (FirebaseAuth.instance.currentUser != null) {
       user.value =
           FirebaseAuth.instance.currentUser; // USER HAS BEEN INITIALIZED
+
     } else {
       user.value = null;
     }

@@ -7,12 +7,10 @@ import 'package:intl/intl.dart';
 import 'package:my_library/res/pop_up_menu_constants.dart';
 
 class CardDetailScreen extends StatelessWidget {
-  CardDetailScreen();
-
   @override
   Widget build(BuildContext context) {
-    MyCard card = Get.arguments;
-
+    String pathForCard = Get.arguments;
+    MyCard card = Get.find(tag: pathForCard);
     return Scaffold(
       body: Column(
         children: [
@@ -26,7 +24,7 @@ class CardDetailScreen extends StatelessWidget {
                 Row(
                   children: [
                     IconButton(
-                        icon: Icon(Icons.arrow_back),
+                        icon: const Icon(Icons.arrow_back),
                         onPressed: () {
                           Get.back();
                         }),
@@ -34,16 +32,17 @@ class CardDetailScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
                         DateFormat.yMMMEd().format(card.dateTime!),
-                        style: TextStyle(fontSize: 18),
+                        style: const TextStyle(fontSize: 18),
                       ),
                     ),
                   ],
                 ),
                 PopupMenuButton<int>(
-                    itemBuilder: (context) => PopUpMenuConstants.choices
-                        .map(
-                            (choice) => PopupMenuItem<int>(child: Text(choice)))
-                        .toList()),
+                  onSelected: (item) => card.deleteTheCard(),
+                  itemBuilder: (context) => PopUpMenuConstants.choices
+                      .map((choice) => PopupMenuItem<int>(child: Text(choice)))
+                      .toList(),
+                ),
               ],
             ),
           ),
@@ -67,7 +66,7 @@ class CardDetailScreen extends StatelessWidget {
                         Expanded(
                           flex: 8,
                           child: Container(
-                            child: textForCard(card.shortExp!.value, context),
+                            child: textForCard(card.title!.value, context),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                                 border:
@@ -100,7 +99,7 @@ class CardDetailScreen extends StatelessWidget {
                                       height: 250,
                                       child: element,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 15,
                                     )
                                   ],
@@ -139,11 +138,11 @@ class CardDetailScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Container(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 15),
+          style: const TextStyle(fontSize: 15),
         ),
       ),
     );

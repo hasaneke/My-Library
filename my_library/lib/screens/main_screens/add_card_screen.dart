@@ -15,14 +15,18 @@ class AddItemScreen extends GetView<AddCardScreenController> {
   final DatabaseController databaseController = Get.find();
   final ImagePicker _picker = ImagePicker();
   XFile? image;
+  final String? path = Get.arguments;
+  bool isClicked = false;
   @override
   Widget build(BuildContext context) {
-    Map<String, RxString> values = {
+    Map<String, dynamic> values = {
+      'path': path,
       'title': RxString(''),
       'short_exp': RxString(''),
       'long_exp': RxString(''),
+      'images': RxList<XFile>([]),
     };
-    final String? path = Get.arguments;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: context.theme.scaffoldBackgroundColor,
@@ -156,18 +160,20 @@ class AddItemScreen extends GetView<AddCardScreenController> {
                     height: 15,
                   ),
                   Obx(
-                    () => databaseController.isItemLoading.value
+                    () => databaseController.isItemUploading.value
                         ? const CircularProgressIndicator(
                             color: Colors.black,
                           )
                         : ElevatedButton(
-                            onPressed: () {
-                              _formKey.currentState!.save();
-                              final DatabaseController databaseController =
-                                  Get.find();
-                              databaseController.addCard(
-                                  values, path!, controller.images);
-                            },
+                            onPressed: isClicked
+                                ? null
+                                : () {
+                                    _formKey.currentState!.save();
+                                    final DatabaseController
+                                        databaseController = Get.find();
+                                    values['images'] = controller.images;
+                                    databaseController.addCard(values);
+                                  },
                             child: Text(
                               'add'.tr,
                               style: TextStyle(

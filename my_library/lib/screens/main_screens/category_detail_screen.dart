@@ -17,26 +17,26 @@ class CategoryDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController _textEditingController = TextEditingController();
-    final String path = Get.arguments;
-    final Category category_controller = Get.find(tag: path);
+
+    final Category category_controller = Get.find(tag: Get.arguments);
     final CategoryDetailScreenController controller = Get.put(
-      CategoryDetailScreenController(),
-      tag: path,
+      CategoryDetailScreenController(path: RxString(Get.arguments)),
+      tag: Get.arguments,
     );
 
     _textEditingController.text = category_controller.title!.value;
     int i = 0;
 
     AppBar appBar(TextEditingController _textEditingController,
-            BuildContext context, String path, int i) =>
+            BuildContext context, int i) =>
         AppBar(
           title: Obx(() => Center(
-              child: category_controller.editTitle.value
+              child: controller.editTitle.value
                   ? TextField(
                       controller: _textEditingController,
                       onSubmitted: (text) {
-                        category_controller.changeTitle(text).then((value) =>
-                            category_controller.editTitle.value = false);
+                        category_controller.changeTitle(text).then(
+                            (value) => controller.editTitle.value = false);
                       })
                   : Text(category_controller.title!.value))),
           foregroundColor: Colors.black,
@@ -59,8 +59,8 @@ class CategoryDetailScreen extends StatelessWidget {
               ),
             ),
             PopupMenuButton<int>(
-              onSelected: (item) => category_controller.onPopUpSelected(
-                  item, category_controller),
+              onSelected: (item) =>
+                  controller.onPopUpSelected(item, category_controller),
               itemBuilder: (context) => PopUpMenuConstants.choices
                   .map((choice) =>
                       PopupMenuItem<int>(value: i++, child: Text(choice.tr)))
@@ -77,13 +77,13 @@ class CategoryDetailScreen extends StatelessWidget {
           return SingleChildScrollView(
             child: Column(
               children: [
-                appBar(_textEditingController, context, path, i),
+                appBar(_textEditingController, context, i),
                 Container(
                   height: MediaQuery.of(context).size.height -
                       MediaQuery.of(context).padding.top -
                       AppBar().preferredSize.height,
-                  child: Center(
-                    child: const Text('Empty'),
+                  child: const Center(
+                    child: Text('Empty'),
                   ),
                 ),
               ],
@@ -95,7 +95,7 @@ class CategoryDetailScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                appBar(_textEditingController, context, path, i),
+                appBar(_textEditingController, context, i),
                 category_controller.alt_categories.isNotEmpty
                     ? controller.isCatOpened.value
                         ? Padding(
@@ -143,7 +143,7 @@ class CategoryDetailScreen extends StatelessWidget {
             context.theme.floatingActionButtonTheme.backgroundColor,
         child: const Icon(Icons.add, color: Colors.black),
         onPressed: () {
-          final String? path = category_controller.path;
+          final String path = category_controller.path;
           Get.toNamed(Routes.ADDITEM, arguments: path);
         },
       ),

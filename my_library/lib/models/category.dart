@@ -15,22 +15,23 @@ import 'package:my_library/models/my_card.dart';
 import 'package:uuid/uuid.dart';
 
 class Category extends GetxController {
-  String? path; // Path to category
+  String path; // Path to category
   String? previous_path;
   RxString? title = RxString(' ');
   Color? color;
   RxList<Category> alt_categories = <Category>[].obs;
   var cards = RxList<MyCard?>([]);
+  RxMap<String, MyCard> cardsWithMap = RxMap<String, MyCard>({});
   RxBool isLoading = false.obs;
+
   Category({
     this.title,
     this.color,
-    this.path,
+    required this.path,
     this.previous_path,
   });
 
   late bool isFetched;
-  late RxBool editTitle;
 
   Future<void> fetchData() async {
     await _fetchCategories();
@@ -57,7 +58,7 @@ class Category extends GetxController {
 
   Future<void> _fetchItems() async {
     await FirebaseFirestore.instance
-        .collection('$path/items')
+        .collection('$path/cards')
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) async {
@@ -68,6 +69,7 @@ class Category extends GetxController {
           longExp: RxString(doc['long_exp']),
           dateTime: DateTime.parse(doc['date']),
         );
+        log(doc.reference.path);
         final result = await firebase_storage.FirebaseStorage.instance
             .ref(doc.reference.path)
             .child('images')
@@ -109,21 +111,8 @@ class Category extends GetxController {
     });
   }
 
-  void onPopUpSelected(int item, Category category) async {
-    switch (item) {
-      case 0:
-        editTitle.value = true;
-
-        break;
-      case 1:
-        final DatabaseController database_controller = Get.find();
-        database_controller.deleteCategory(category);
-        break;
-    }
-  }
-
   Future<void> changeTitle(String newTitle) async {
-    await FirebaseFirestore.instance.doc(path!).update({
+    await FirebaseFirestore.instance.doc(path).update({
       'title': newTitle,
     }).then((value) {
       title!.value = newTitle;
@@ -132,8 +121,6 @@ class Category extends GetxController {
 
   @override
   void onInit() {
-    editTitle = false.obs;
-
     isFetched = false;
     super.onInit();
   }

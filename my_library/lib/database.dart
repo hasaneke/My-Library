@@ -17,13 +17,14 @@ import 'package:my_library/models/my_card.dart';
 import 'package:intl/intl.dart';
 
 import 'package:uuid/uuid.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 class DatabaseController extends GetxController {
   late AuthController authController;
 
   var categories = RxList<Category>([]);
   var isCategoriesLoading = false.obs;
-  var isItemLoading = false.obs;
+  var isItemUploading = false.obs;
   late String userId;
 
   void addCategory({
@@ -31,7 +32,6 @@ class DatabaseController extends GetxController {
     @required Color? color,
   }) async {
     String uniqueId = Uuid().v1();
-
     try {
       await FirebaseFirestore.instance
           .doc('users/$userId/categories/$uniqueId')
@@ -50,50 +50,66 @@ class DatabaseController extends GetxController {
     }
   }
 
-  void deleteCategory(Category category) async {
-    await FirebaseFirestore.instance
-        .doc(category.path!)
-        .delete()
-        .then((value) async {
-      if (category.alt_categories.isNotEmpty) {
-        await FirebaseFirestore.instance
-            .collection('${category.path}/categories')
-            .get()
-            .then((QuerySnapshot querySnapshot) {
-          querySnapshot.docs.forEach((doc) {
-            doc.reference.delete();
-          });
-        });
-      }
-      if (category.previous_path == null) {
-        categories.remove(category);
-        Get.back();
-      } else {
-        final Category category_controller = Get.find(tag: category.path);
-        category_controller.alt_categories.clear();
-        final Category previous_category =
-            Get.find(tag: category.previous_path);
-        previous_category.alt_categories.remove(category);
-        Get.back();
-      }
+  Future<void> deleteCategory(Category category) async {
+    if (category.alt_categories.isEmpty && category.cards.isNotEmpty) {
+      await deleteAllCards(category.path)
+          .then((value) => categories.remove(category));
+    } else if (category.cards.isNotEmpty) {
+      await deleteAllCards(category.path);
+    }
+    if (category.alt_categories.isNotEmpty) {
+      category.alt_categories.forEach((category) {
+        deleteCategory(category);
+      });
+    }
+
+    FirebaseFirestore.instance.doc(category.path).delete();
+    Get.back();
+  }
+
+  Future<void> deleteAllCards(String pathToCat) async {
+    FirebaseFirestore.instance
+        .collection('$pathToCat/cards')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) async {
+        deleteOneCard(doc.reference.path);
+      });
     });
   }
 
+  Future<void> deleteOneCard(String pathToCard) async {
+    await FirebaseFirestore.instance.doc(pathToCard).delete();
+    final result =
+        await FirebaseStorage.instance.ref("${pathToCard}/images").listAll();
+    if (result.items.isNotEmpty) {
+      result.items.forEach((element) {
+        element.delete();
+      });
+    }
+    List<String> pathToItsCat = pathToCard.split("/cards");
+    Category containerCat = Get.find(tag: pathToItsCat[0]);
+    MyCard theCard = Get.find(tag: pathToCard);
+    containerCat.cards.remove(theCard);
+    Get.back();
+  }
+
   Future<void> editCategory(String newTitle, Category category) async {
-    await FirebaseFirestore.instance.doc(category.path!).update({
+    await FirebaseFirestore.instance.doc(category.path).update({
       'title': newTitle,
     });
     Category choosenCategory = Get.find(tag: category.path);
     choosenCategory.title!.value = newTitle;
   }
 
-  Future<void> addCard(Map<String, RxString> values, String path,
-      RxList<XFile> selectedImages) async {
+  Future<void> addCard(
+    Map<String, dynamic> values,
+  ) async {
     String uniqueId = Uuid().v1();
-    isItemLoading.value = true;
+    isItemUploading.value = true;
     try {
       await FirebaseFirestore.instance
-          .collection('$path/items')
+          .collection('${values['path']}/cards')
           .doc(uniqueId)
           .set({
         'title': values['title']!.value,
@@ -101,27 +117,29 @@ class DatabaseController extends GetxController {
         'long_exp': values['long_exp']!.value,
         'date': DateTime.now().toString(),
       }).then((value) {
-        final Category category_controller = Get.find(tag: path);
         final newCard = MyCard(
-          path: '$path/items/$uniqueId',
+          path: '${values['path']}/cards/$uniqueId',
           title: values['title'],
           shortExp: values['short_exp'],
           longExp: values['long_exp'],
           dateTime: DateTime.now(),
         );
-        RxList<Image> convertedToImage = selectedImages
-            .map((element) => Image.file(File(element.path)))
+        RxList<Image> fromXFilestoImages = (values['images'] as RxList<XFile>)
+            .map((element) {
+              return Image.file(File(element.path));
+            })
             .toList()
             .obs;
-        newCard.images = convertedToImage;
-        selectedImages.forEach((element) {
-          log('image is uploaded');
-          uploadImage('$path/items/$uniqueId/images', element).then((value) {
-            category_controller.cards.add(newCard);
 
-            isItemLoading.value = false;
-            Get.back();
-          });
+        newCard.images = fromXFilestoImages;
+        Category category = Get.find(tag: values['path']);
+        category.cards.add(newCard);
+        uploadImages(
+                '${values['path']}/cards/$uniqueId/images', values['images'])
+            .then((value) {
+          isItemUploading.value = false;
+
+          Get.back();
         });
       });
     } on Exception catch (e) {
@@ -129,13 +147,13 @@ class DatabaseController extends GetxController {
     }
   }
 
-  Future<void> uploadImage(String path, XFile? xFile) async {
-    var idForImage = Uuid().v1();
-    var pathForImage = '$path/$idForImage';
-    final ref = FirebaseStorage.instance.ref(pathForImage);
+  Future<void> uploadImages(String path, RxList<XFile> images) async {
+    for (var image in images) {
+      var uIdForImage = Uuid().v1();
+      final ref = FirebaseStorage.instance.ref("$path/$uIdForImage");
 
-    File image = File(xFile!.path);
-    await ref.putFile(image);
+      await ref.putFile(File(image.path));
+    }
   }
 
   @override
@@ -159,6 +177,9 @@ class DatabaseController extends GetxController {
         log(doc.reference.path);
       });
 
+      isCategoriesLoading.value = false;
+    }).catchError((e) {
+      Get.showSnackbar(GetBar(title: e.toString()));
       isCategoriesLoading.value = false;
     });
 

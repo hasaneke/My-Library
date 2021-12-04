@@ -24,15 +24,22 @@ class EmailVertificationLobbyScreen extends GetView<AuthController> {
           child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Text(
+        children: [
+          const Text(
             'Waiting for e-mail vertification...',
             style: TextStyle(fontSize: 25),
           ),
-          SizedBox(
+          const SizedBox(
             height: 25,
           ),
-          CircularProgressIndicator(),
+          const CircularProgressIndicator(),
+          const SizedBox(
+            height: 14,
+          ),
+          TextButton(
+              onPressed: controller.sendEmailVertification,
+              child: const Text('Send request again',
+                  style: TextStyle(color: Colors.purple, fontSize: 17)))
         ],
       )),
     );
