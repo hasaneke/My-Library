@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/context_extensions.dart';
 import 'package:my_library/controllers/auth_controller.dart';
-import 'package:my_library/database.dart';
+import 'package:my_library/database/database.dart';
 
-import 'package:my_library/screens/main_screens/widgets/add_category_dialog.dart';
-import 'package:my_library/screens/main_screens/widgets/category_gridview.dart';
+import 'package:my_library/components/add_category_dialog.dart';
+import 'package:my_library/components/category_gridview.dart';
 import 'package:my_library/routes/app_pages.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -98,8 +98,8 @@ class HomeScreen extends StatelessWidget {
                 color: Colors.black,
               ));
             } else {
-              if (databaseController.categories.isNotEmpty) {
-                return CategoryGridView(databaseController.categories);
+              if (databaseController.categoriesWithMap.isNotEmpty) {
+                return CategoryGridView(databaseController.categoriesWithMap);
               } else {
                 return const Center(
                     child: (Text(

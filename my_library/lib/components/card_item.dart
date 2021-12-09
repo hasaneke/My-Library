@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_library/models/my_card.dart';
 import 'package:intl/intl.dart';
-import 'package:my_library/screens/main_screens/card_detail_screen.dart';
+import 'package:my_library/routes/app_pages.dart';
+import 'package:my_library/screens/route_screens/card_detail_screen.dart';
 
 class CardItem extends StatelessWidget {
   MyCard card;
@@ -13,6 +14,7 @@ class CardItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MyCard controller = Get.put(card, tag: card.path);
+
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
       elevation: 5,
@@ -20,10 +22,9 @@ class CardItem extends StatelessWidget {
         () => ListTile(
           onTap: () {
             controller.isFetched
-                ? Get.to(() => CardDetailScreen(), arguments: controller.path)
-                : card.fetchImages().then((value) => Get.to(
-                    () => CardDetailScreen(),
-                    arguments: controller.path));
+                ? Get.toNamed(Routes.CARD_DETAIL_SCREEN, arguments: card)
+                : card.fetchImages().then((value) =>
+                    Get.toNamed(Routes.CARD_DETAIL_SCREEN, arguments: card));
           },
           leading: controller.images.isNotEmpty
               ? CircleAvatar(

@@ -1,12 +1,8 @@
 import 'package:get/get.dart';
-import 'package:my_library/database.dart';
+import 'package:my_library/database/database.dart';
 import 'package:my_library/models/category.dart';
 
 class CategoryDetailScreenController extends GetxController {
-  late RxString path;
-
-  CategoryDetailScreenController({path});
-
   RxBool isCatOpened = false.obs;
   RxBool editTitle = false.obs;
 
@@ -19,7 +15,9 @@ class CategoryDetailScreenController extends GetxController {
         break;
       case 1:
         final DatabaseController database_controller = Get.find();
-        database_controller.deleteCategory(category);
+        database_controller
+            .deleteCategory(category)
+            .then((value) => Get.back());
         break;
     }
   }

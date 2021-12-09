@@ -9,26 +9,24 @@ import 'package:my_library/models/category.dart';
 import 'package:my_library/res/pop_up_menu_constants.dart';
 import 'package:my_library/routes/app_pages.dart';
 import 'package:intl/intl.dart';
-import 'package:my_library/screens/main_screens/widgets/add_category_dialog.dart';
-import 'package:my_library/screens/main_screens/widgets/card_item.dart';
-import 'package:my_library/screens/main_screens/widgets/category_gridview.dart';
+import 'package:my_library/components/add_category_dialog.dart';
+import 'package:my_library/components/card_item.dart';
+import 'package:my_library/components/category_gridview.dart';
 
 class CategoryDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController _textEditingController = TextEditingController();
 
-    final Category category_controller = Get.find(tag: Get.arguments);
-    final CategoryDetailScreenController controller = Get.put(
-      CategoryDetailScreenController(path: RxString(Get.arguments)),
-      tag: Get.arguments,
-    );
+    Category category_controller = Get.find(tag: Get.arguments);
+
+    final CategoryDetailScreenController controller =
+        Get.put(CategoryDetailScreenController(), tag: Get.arguments);
 
     _textEditingController.text = category_controller.title!.value;
-    int i = 0;
 
     AppBar appBar(TextEditingController _textEditingController,
-            BuildContext context, int i) =>
+            BuildContext context) =>
         AppBar(
           title: Obx(() => Center(
               child: controller.editTitle.value
@@ -48,7 +46,7 @@ class CategoryDetailScreen extends StatelessWidget {
                 Get.defaultDialog(
                     title: 'add_category_title'.tr,
                     content: AddCategoryDialog(
-                      category: category_controller,
+                      path: category_controller.path,
                     ),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 15));
               },
@@ -62,8 +60,7 @@ class CategoryDetailScreen extends StatelessWidget {
               onSelected: (item) =>
                   controller.onPopUpSelected(item, category_controller),
               itemBuilder: (context) => PopUpMenuConstants.choices
-                  .map((choice) =>
-                      PopupMenuItem<int>(value: i++, child: Text(choice.tr)))
+                  .map((choice) => PopupMenuItem<int>(child: Text(choice.tr)))
                   .toList(),
             )
           ],
@@ -77,8 +74,8 @@ class CategoryDetailScreen extends StatelessWidget {
           return SingleChildScrollView(
             child: Column(
               children: [
-                appBar(_textEditingController, context, i),
-                Container(
+                appBar(_textEditingController, context),
+                SizedBox(
                   height: MediaQuery.of(context).size.height -
                       MediaQuery.of(context).padding.top -
                       AppBar().preferredSize.height,
@@ -95,7 +92,7 @@ class CategoryDetailScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                appBar(_textEditingController, context, i),
+                appBar(_textEditingController, context),
                 category_controller.alt_categories.isNotEmpty
                     ? controller.isCatOpened.value
                         ? Padding(
@@ -109,7 +106,7 @@ class CategoryDetailScreen extends StatelessWidget {
                               child: Column(
                                 children: [
                                   CategoryGridView(
-                                      category_controller.alt_categories.value),
+                                      category_controller.altCategoriesWithMap),
                                   IconButton(
                                       onPressed: () => controller.toggleCat(),
                                       icon: const Icon(
@@ -128,8 +125,9 @@ class CategoryDetailScreen extends StatelessWidget {
                   controller: ScrollController(keepScrollOffset: true),
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, index) {
-                    var card = category_controller.cards[index];
-                    return CardItem(card!);
+                    var card =
+                        category_controller.cards.values.elementAt(index);
+                    return CardItem(card);
                   },
                   itemCount: category_controller.cards.length,
                 ),

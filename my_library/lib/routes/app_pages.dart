@@ -2,14 +2,15 @@
 
 import 'package:get/get.dart';
 import 'package:my_library/bindings.dart';
-import 'package:my_library/models/category.dart';
-import 'package:my_library/screens/drawer_screens/settings_screen.dart';
 
-import 'package:my_library/screens/login_screen.dart';
-import 'package:my_library/screens/app_screen_root.dart';
-import 'package:my_library/screens/main_screens/add_card_screen.dart';
-import 'package:my_library/screens/main_screens/category_detail_screen.dart';
-import 'package:my_library/screens/sign_up_screen.dart';
+import 'package:my_library/screens/drawer_screens/settings_screen.dart';
+import 'package:my_library/screens/route_screens/card_detail_screen.dart';
+
+import '../screens/preparation_screens/login_screen.dart';
+import 'package:my_library/screens/root/app_screen_root.dart';
+import 'package:my_library/screens/route_screens/add_card_screen.dart';
+import 'package:my_library/screens/route_screens/category_detail_screen.dart';
+import '../screens/preparation_screens/sign_up_screen.dart';
 
 part 'app_routes.dart';
 
@@ -31,7 +32,7 @@ class AppPages extends GetxController {
         page: () => SignUpScreen(),
         binding: SampleBindings()),
     GetPage(
-        name: _Paths.CATEGORY_DETAIL,
+        name: _Paths.CATEGORY_DETAIL_SCREEN,
         page: () => CategoryDetailScreen(),
         binding: SampleBindings()),
     GetPage(
@@ -39,8 +40,12 @@ class AppPages extends GetxController {
         page: () => SettingsScreen(),
         binding: SampleBindings()),
     GetPage(
-        name: _Paths.ADDITEM,
-        page: () => AddItemScreen(),
+        name: _Paths.ADD_CARD_SCREEN,
+        page: () => AddCardScreen(),
         binding: SampleBindings()),
+    GetPage(
+        name: _Paths.CARD_DETAIL_SCREEN,
+        page: () => CardDetailScreen(),
+        binding: SampleBindings())
   ];
 }

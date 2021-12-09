@@ -5,7 +5,8 @@ import 'package:get/get.dart';
 
 import 'package:my_library/models/category.dart';
 
-import '../category_detail_screen.dart';
+import '../screens/route_screens/category_detail_screen.dart';
+import '../routes/app_pages.dart';
 
 class CategoryItem extends StatelessWidget {
   Category category;
@@ -21,13 +22,12 @@ class CategoryItem extends StatelessWidget {
         if (!category_controller.isFetched) {
           category_controller.fetchData().then((value) {
             category.isFetched = true;
-            Get.to(() => CategoryDetailScreen(),
-                preventDuplicates: false, arguments: category_controller.path);
+            Get.toNamed(Routes.CATEGORY_DETAIL,
+                preventDuplicates: false, arguments: category.path);
           });
         } else {
-          Get.to(() => CategoryDetailScreen(),
-              preventDuplicates: false,
-              arguments: category_controller.path as String);
+          Get.toNamed(Routes.CATEGORY_DETAIL,
+              preventDuplicates: false, arguments: category.path);
         }
       },
       child: Container(

@@ -4,10 +4,10 @@ import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:my_library/controllers/auth_controller.dart';
 import 'package:my_library/controllers/app_root_screen_controller.dart';
 import 'package:get/get.dart';
-import 'package:my_library/screens/email_vertifcation_lobby_screen.dart';
-import 'package:my_library/screens/exit_screen.dart';
+import '../preparation_screens/exit_screen.dart';
+import '../preparation_screens/email_vertifcation_lobby_screen.dart';
 
-import '../database.dart';
+import '../../database/database.dart';
 
 class AppRootScreen extends GetView<AppScreenRootController> {
   AppRootScreen({Key? key}) : super(key: key);

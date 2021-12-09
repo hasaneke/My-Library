@@ -23,6 +23,7 @@ class DatabaseController extends GetxController {
   late AuthController authController;
 
   var categories = RxList<Category>([]);
+  var categoriesWithMap = RxMap<String, Category>({});
   var isCategoriesLoading = false.obs;
   var isItemUploading = false.obs;
   late String userId;
@@ -39,10 +40,11 @@ class DatabaseController extends GetxController {
         'title': title,
         'color': color!.value,
       }).then((value) {
-        categories.add(Category(
+        final newCat = Category(
             title: RxString(title!),
             color: color,
-            path: 'users/$userId/categories/$uniqueId'));
+            path: 'users/$userId/categories/$uniqueId');
+        categoriesWithMap['users/$userId/categories/$uniqueId'] = newCat;
         Get.back();
       });
     } on Exception catch (e) {
@@ -51,20 +53,27 @@ class DatabaseController extends GetxController {
   }
 
   Future<void> deleteCategory(Category category) async {
-    if (category.alt_categories.isEmpty && category.cards.isNotEmpty) {
-      await deleteAllCards(category.path)
-          .then((value) => categories.remove(category));
-    } else if (category.cards.isNotEmpty) {
-      await deleteAllCards(category.path);
+    if (category.cards.isNotEmpty) {
+      deleteAllCards(category.path);
     }
     if (category.alt_categories.isNotEmpty) {
-      category.alt_categories.forEach((category) {
-        deleteCategory(category);
+      category.altCategoriesWithMap.values.forEach((altCategory) {
+        deleteCategory(altCategory);
       });
+      // category.altCategoriesWithMap.values.forEach((element) {
+      //   category.altCategoriesWithMap.values.forEach((altCategory) {
+      //     deleteCategory(altCategory);
+      //   });
+      // });
     }
+    if (category.previous_path != null) {
+      Category previousCategory = Get.find(tag: category.previous_path);
 
+      previousCategory.altCategoriesWithMap.remove(category.path);
+    } else {
+      categoriesWithMap.remove(category.path);
+    }
     FirebaseFirestore.instance.doc(category.path).delete();
-    Get.back();
   }
 
   Future<void> deleteAllCards(String pathToCat) async {
@@ -81,17 +90,17 @@ class DatabaseController extends GetxController {
   Future<void> deleteOneCard(String pathToCard) async {
     await FirebaseFirestore.instance.doc(pathToCard).delete();
     final result =
-        await FirebaseStorage.instance.ref("${pathToCard}/images").listAll();
+        await FirebaseStorage.instance.ref("$pathToCard/images").listAll();
     if (result.items.isNotEmpty) {
       result.items.forEach((element) {
         element.delete();
       });
     }
-    List<String> pathToItsCat = pathToCard.split("/cards");
+    List<String> pathToItsCat =
+        pathToCard.split("/cards"); //This helps us to reach its category path
     Category containerCat = Get.find(tag: pathToItsCat[0]);
-    MyCard theCard = Get.find(tag: pathToCard);
-    containerCat.cards.remove(theCard);
-    Get.back();
+
+    containerCat.cards.remove(pathToCard);
   }
 
   Future<void> editCategory(String newTitle, Category category) async {
@@ -117,6 +126,8 @@ class DatabaseController extends GetxController {
         'long_exp': values['long_exp']!.value,
         'date': DateTime.now().toString(),
       }).then((value) {
+        final String pathToCard =
+            '${values['path']}/cards/$uniqueId'; //path in firebase firestore
         final newCard = MyCard(
           path: '${values['path']}/cards/$uniqueId',
           title: values['title'],
@@ -133,7 +144,8 @@ class DatabaseController extends GetxController {
 
         newCard.images = fromXFilestoImages;
         Category category = Get.find(tag: values['path']);
-        category.cards.add(newCard);
+
+        category.cards[pathToCard] = newCard;
         uploadImages(
                 '${values['path']}/cards/$uniqueId/images', values['images'])
             .then((value) {
@@ -173,7 +185,7 @@ class DatabaseController extends GetxController {
             title: RxString(doc['title']),
             color: Color(doc['color']),
             path: doc.reference.path);
-        categories.add(newCategory);
+        categoriesWithMap[doc.reference.path] = newCategory;
         log(doc.reference.path);
       });
 

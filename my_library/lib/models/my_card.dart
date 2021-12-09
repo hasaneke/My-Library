@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:my_library/database.dart';
+import 'package:my_library/database/database.dart';
 
 class MyCard extends GetxController {
   String path; //Path to item<
@@ -42,6 +42,7 @@ class MyCard extends GetxController {
 
   Future<void> resultHandler(ListResult result) async {
     result.items.getRange(1, result.items.length).forEach((element) async {
+      //first image is already in the ram, no need to download twice.
       log('fetched');
       String downloadUrl = await element.getDownloadURL();
       images.add(Image.network(downloadUrl));
@@ -63,7 +64,8 @@ class MyCard extends GetxController {
         log('?');
         break;
       case 1:
-        deleteTheCard();
+        log('why it is not get deleted?');
+        deleteTheCard().then((value) => Get.back());
         break;
     }
   }
