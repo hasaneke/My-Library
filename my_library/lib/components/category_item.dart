@@ -1,16 +1,18 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:my_library/models/category.dart';
+import 'package:my_library/data/models/category/category.dart';
 
-import '../screens/route_screens/category_detail_screen.dart';
-import '../routes/app_pages.dart';
+import '../utils/routers/app_pages.dart';
 
 class CategoryItem extends StatelessWidget {
   Category category;
 
+  // ignore: use_key_in_widget_constructors
   CategoryItem(this.category);
 
   @override
@@ -21,7 +23,7 @@ class CategoryItem extends StatelessWidget {
       onTap: () async {
         if (!category_controller.isFetched) {
           category_controller.fetchData().then((value) {
-            category.isFetched = true;
+            category_controller.isFetched = true;
             Get.toNamed(Routes.CATEGORY_DETAIL,
                 preventDuplicates: false, arguments: category.path);
           });

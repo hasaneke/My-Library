@@ -1,15 +1,13 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:my_library/models/my_card.dart';
+import 'package:my_library/data/models/MyCard/my_card.dart';
 import 'package:intl/intl.dart';
-import 'package:my_library/routes/app_pages.dart';
-import 'package:my_library/screens/route_screens/card_detail_screen.dart';
+import 'package:my_library/utils/routers/app_pages.dart';
 
+// ignore: must_be_immutable
 class CardItem extends StatelessWidget {
   MyCard card;
-  CardItem(this.card);
+  CardItem(this.card, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +20,10 @@ class CardItem extends StatelessWidget {
         () => ListTile(
           onTap: () {
             controller.isFetched
-                ? Get.toNamed(Routes.CARD_DETAIL_SCREEN, arguments: card)
-                : card.fetchImages().then((value) =>
-                    Get.toNamed(Routes.CARD_DETAIL_SCREEN, arguments: card));
+                ? Get.toNamed(Routes.CARD_DETAIL_SCREEN, arguments: card.path)
+                : card.fetchImages().then((value) => Get.toNamed(
+                    Routes.CARD_DETAIL_SCREEN,
+                    arguments: card.path));
           },
           leading: controller.images.isNotEmpty
               ? CircleAvatar(

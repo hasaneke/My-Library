@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
-import 'package:my_library/controllers/auth_controller.dart';
-import 'package:my_library/controllers/app_root_screen_controller.dart';
+import 'package:my_library/screens/navigation_screens/tab_bar_screens/marked/controller/marked_screen_controller.dart';
+import 'package:my_library/screens/presentation_screens/controller/auth_controller.dart';
+import 'package:my_library/screens/root/controllers/app_root_screen_controller.dart';
 import 'package:get/get.dart';
-import '../preparation_screens/exit_screen.dart';
-import '../preparation_screens/email_vertifcation_lobby_screen.dart';
+import '../presentation_screens/signout/exit_screen.dart';
+import '../presentation_screens/email_vertification/email_vertifcation_lobby_screen.dart';
 
-import '../../database/database.dart';
+import 'package:my_library/data/repositories/database.dart';
 
 class AppRootScreen extends GetView<AppScreenRootController> {
   AppRootScreen({Key? key}) : super(key: key);
   final authController = Get.put(AuthController());
   final databaseController = Get.put(DatabaseController());
+
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -42,10 +44,10 @@ class AppRootScreen extends GetView<AppScreenRootController> {
                       label: 'home_tab'.tr),
                   BottomNavigationBarItem(
                       icon: Icon(
-                        Icons.favorite,
+                        Icons.bookmark,
                         color: context.theme.iconTheme.color,
                       ),
-                      label: 'favorites_tab'.tr),
+                      label: 'marked_tab'.tr),
                   BottomNavigationBarItem(
                       icon: FaIcon(
                         FontAwesomeIcons.list,
