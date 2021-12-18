@@ -3,12 +3,16 @@ import 'package:my_library/data/repositories/database.dart';
 import 'package:my_library/data/models/category/category.dart';
 
 class CategoryDetailScreenController extends GetxController {
+  Category category;
+  RxBool loading = true.obs;
+  CategoryDetailScreenController(this.category);
+
   RxBool isCatOpened = false.obs;
   RxBool editTitle = false.obs;
 
   toggleCat() => isCatOpened.value = !isCatOpened.value;
 
-  void onPopUpSelected(String item, Category category) async {
+  void onPopUpSelected(String item) async {
     switch (item) {
       case 'edit':
         editTitle.value = true;
@@ -18,5 +22,11 @@ class CategoryDetailScreenController extends GetxController {
         Get.back();
         break;
     }
+  }
+
+  @override
+  void onInit() {
+    category.fetchData().then((value) => loading.value = false);
+    super.onInit();
   }
 }

@@ -9,7 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:my_library/data/models/MyCard/abstractions/my_card_firebase.dart';
+import 'package:my_library/data/models/MyCard/abstractions/FirebaseMyCard.dart';
 
 import 'package:my_library/screens/presentation_screens/controller/auth_controller.dart';
 import 'package:my_library/data/models/category/category.dart';

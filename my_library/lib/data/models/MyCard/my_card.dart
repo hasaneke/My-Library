@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:my_library/data/models/MyCard/abstractions/my_card_firebase.dart';
+import 'package:my_library/data/models/MyCard/abstractions/FirebaseMyCard.dart';
 import 'package:my_library/data/models/category/abstractions/FirebaseCategory.dart';
 import 'package:my_library/data/models/category/category.dart';
 import 'package:my_library/data/repositories/database.dart';
@@ -34,6 +34,18 @@ class MyCard extends GetxController with MyCardFirebase {
       this.isMarked,
       this.dateTime});
 
+  static MyCard createObjectFromDoc(DocumentSnapshot doc) {
+    return MyCard(
+        uniqueId: doc.get('unique_id'),
+        containerCatPath: doc.get('container_cat_path'),
+        path: doc.reference.path,
+        title: RxString(doc.get('title')),
+        shortExp: RxString(doc.get('short_exp')),
+        longExp: RxString(doc.get('long_exp')),
+        dateTime: DateTime.parse(doc.get('date')),
+        isMarked: RxBool(doc.get('is_marked')));
+  }
+
   Future<void> fetchImages() async {
     ListResult result = await super.fetchImagesFromFirebaseStorage(path);
 
@@ -56,11 +68,11 @@ class MyCard extends GetxController with MyCardFirebase {
   Future<void> toggleMark() async {
     MarkedScreenController markedScreenController = Get.find();
     if (isMarked!.value == false) {
-      super.markItToFirebase(uniqueId: uniqueId, path: path);
+      super.markItToFirebaseFirestore(uniqueId: uniqueId, path: path);
 
       markedScreenController.addCardToMarkedList(this);
     } else {
-      super.unmarkItFromFirebase(uniqueId: uniqueId, path: path);
+      super.unmarkItFromFirebaseFirestore(uniqueId: uniqueId, path: path);
       markedScreenController.removeCardFromMarkedList(this);
     }
     isMarked!.value = !isMarked!.value;

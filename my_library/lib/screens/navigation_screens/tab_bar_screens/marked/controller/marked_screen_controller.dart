@@ -28,19 +28,22 @@ class MarkedScreenController extends GetxController {
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((element) async {
         String path = element['path'];
+        log(path);
         DocumentSnapshot cardDoc =
             await FirebaseFirestore.instance.doc(path).get();
+        log(cardDoc['title']);
 
         var newCard = MyCard(
             path: path,
-            containerCatPath: path.split('card')[0],
-            uniqueId: cardDoc['uniqueId'],
+            containerCatPath: path.split('/card')[0],
+            uniqueId: cardDoc['unique_id'],
             title: RxString(cardDoc['title']),
             shortExp: RxString(cardDoc['short_exp']),
             longExp: RxString(cardDoc['long_exp']),
             dateTime: DateTime.parse(cardDoc['date']),
             isMarked: RxBool(cardDoc['is_marked']));
         _markedCards.add(newCard);
+        log(newCard.containerCatPath);
       });
     });
     super.onInit();

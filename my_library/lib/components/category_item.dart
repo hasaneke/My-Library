@@ -21,16 +21,17 @@ class CategoryItem extends StatelessWidget {
     log('created');
     return GestureDetector(
       onTap: () async {
-        if (!category_controller.isFetched) {
-          category_controller.fetchData().then((value) {
-            category_controller.isFetched = true;
-            Get.toNamed(Routes.CATEGORY_DETAIL,
-                preventDuplicates: false, arguments: category.path);
-          });
-        } else {
-          Get.toNamed(Routes.CATEGORY_DETAIL,
-              preventDuplicates: false, arguments: category.path);
-        }
+        Get.toNamed(Routes.CATEGORY_DETAIL,
+            preventDuplicates: false, arguments: category.path);
+        //   category_controller.fetchData().then((value) {
+        //     category_controller.isFetched = true;
+        //     Get.toNamed(Routes.CATEGORY_DETAIL,
+        //         preventDuplicates: false, arguments: category.path);
+        //   });
+        // } else {
+        //   Get.toNamed(Routes.CATEGORY_DETAIL,
+        //       preventDuplicates: false, arguments: category.path);
+        // }
       },
       child: Container(
         decoration: BoxDecoration(

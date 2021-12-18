@@ -15,8 +15,6 @@ class MyLibraryBindings extends Bindings {
     Get.lazyPut<AuthController>(() => AuthController());
     Get.lazyPut<AppScreenRootController>(() => AppScreenRootController());
     Get.lazyPut<DatabaseController>(() => DatabaseController());
-    Get.lazyPut<CategoryDetailScreenController>(
-        () => CategoryDetailScreenController());
     Get.lazyPut<AddCardScreenController>(() => AddCardScreenController());
     Get.lazyPut<CardDetailScreenController>(() => CardDetailScreenController());
     Get.lazyPut<MarkedScreenController>(() => MarkedScreenController());

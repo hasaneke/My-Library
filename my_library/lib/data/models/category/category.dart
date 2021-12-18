@@ -9,11 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:image_picker/image_picker.dart';
-import 'package:my_library/data/models/MyCard/abstractions/my_card_firebase.dart';
+import 'package:my_library/data/models/MyCard/abstractions/FirebaseMyCard.dart';
 import 'package:my_library/data/models/category/abstractions/FirebaseCategory.dart';
 
 import 'package:my_library/data/models/MyCard/my_card.dart';
 import 'package:my_library/data/repositories/database.dart';
+import 'package:my_library/screens/navigation_screens/tab_bar_screens/marked/controller/marked_screen_controller.dart';
 
 import 'package:uuid/uuid.dart';
 
@@ -25,8 +26,8 @@ class Category extends GetxController with FirebaseCategory {
   Color? color;
   RxMap<String, Category> altCategoriesWithMap = RxMap<String, Category>({});
   RxMap<String, MyCard> cards = RxMap<String, MyCard>({});
+  bool isFetched = false;
 
-  late bool isFetched;
   Category({
     required this.uniqueId,
     this.title,
@@ -34,7 +35,7 @@ class Category extends GetxController with FirebaseCategory {
     required this.path,
     this.previous_path,
   });
-
+  static void createCategoryFromdoc(DocumentSnapshot doc) {}
   Future<void> fetchData() async {
     await _fetchCategories();
     await _fetchCards();
@@ -60,34 +61,25 @@ class Category extends GetxController with FirebaseCategory {
 
   Future<void> addCard(Map<String, dynamic> values) async {
     try {
-      String uniqueIdForCard = Uuid().v1();
-      MyCardFirebase.uploadCardtoFirebaseFirestore(uniqueIdForCard, values)
-          .then((value) {
-        final String pathToCard =
-            '${values['path']}/cards/$uniqueId'; //path in firebase firestore
-        final newCard = MyCard(
-          uniqueId: uniqueIdForCard,
-          containerCatPath: path,
-          path: '${values['path']}/cards/$uniqueIdForCard',
-          title: values['title'],
-          shortExp: values['short_exp'],
-          longExp: values['long_exp'],
-          isMarked: RxBool(false),
-          dateTime: DateTime.now(),
-        );
-        RxList<Image> fromXFilestoImages = (values['images'] as RxList<XFile>)
-            .map((element) {
-              return Image.file(File(element.path));
-            })
-            .toList()
-            .obs;
+      // String uniqueIdForCard = Uuid().v1();
+      DocumentSnapshot doc =
+          await MyCardFirebase.uploadCardtoFirebaseFirestore(values);
+      // final String pathToCard =
+      //     '$path/cards/$uniqueIdForCard';
+      var newCard = MyCard.createObjectFromDoc(doc);
+      RxList<Image> fromXFilestoImages = (values['images'] as RxList<XFile>)
+          .map((element) {
+            return Image.file(File(element.path));
+          })
+          .toList()
+          .obs;
 
-        newCard.images = fromXFilestoImages;
-        cards[pathToCard] = newCard;
+      newCard.images = fromXFilestoImages;
+      cards[newCard.path] = newCard;
 
-        MyCardFirebase.uploadImagestoFirestorage(
-            '${newCard.path}/images', values['images']);
-      });
+      MyCardFirebase.uploadImagestoFirebasestorage(
+          '${newCard.path}/images', values['images']);
+
       Get.back();
     } on Exception catch (e) {
       log(e.toString());
@@ -144,46 +136,23 @@ class Category extends GetxController with FirebaseCategory {
   Future<void> _fetchCards() async {
     super.fetchCardsFromFirebase(path).then((querySnapshot) {
       querySnapshot.docs.forEach((doc) async {
-        MyCard card = MyCard(
-          uniqueId: doc['uniqueId'],
-          containerCatPath: path,
-          path: doc.reference.path,
-          title: RxString(doc['title']),
-          shortExp: RxString(doc['short_exp']),
-          longExp: RxString(doc['long_exp']),
-          dateTime: DateTime.parse(doc['date']),
-          isMarked: RxBool(doc['is_marked']),
-        );
-        log(doc.reference.path);
+        MyCard myCard = MyCard.createObjectFromDoc(doc);
+
         ListResult result =
             await super.fetchCardFilesFromFirebaseStorage(doc.reference.path);
 
         if (result.items.isNotEmpty) {
           String downloadUrl = await result.items[0].getDownloadURL();
-          card.images.add(Image.network(downloadUrl));
+          myCard.images.add(Image.network(downloadUrl));
         }
-
-        cards[doc.reference.path] = card;
+        cards[doc.reference.path] = myCard;
       });
     });
   }
 
   Future<void> deleteCard(String pathToCard) async {
-    await FirebaseFirestore.instance.doc(pathToCard).delete();
-
-    final result =
-        await FirebaseStorage.instance.ref("$pathToCard/images").listAll();
+    MyCardFirebase.deleteFromFirebaseFirestore(pathToCard);
+    MyCardFirebase.deleteFilesFromFirebaseStorage(pathToCard);
     cards.remove(pathToCard);
-    if (result.items.isNotEmpty) {
-      result.items.forEach((element) {
-        element.delete();
-      });
-    }
-  }
-
-  @override
-  void onInit() {
-    isFetched = false;
-    super.onInit();
   }
 }
