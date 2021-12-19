@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
-import 'package:my_library/screens/navigation_screens/add_card/controller/add_card_screen_controller.dart';
-import 'package:my_library/screens/navigation_screens/card_detail/card_detail_screen.dart';
-import 'package:my_library/screens/navigation_screens/card_detail/controllers/card_detail_screen_controller.dart';
-import 'package:my_library/screens/navigation_screens/tab_bar_screens/marked/controller/marked_screen_controller.dart';
-import 'package:my_library/screens/presentation_screens/controller/auth_controller.dart';
+import 'package:my_library/presentation/home/add_card/controller/add_card_screen_controller.dart';
+import 'package:my_library/presentation/home/card_detail/card_detail_screen.dart';
+import 'package:my_library/presentation/home/card_detail/controllers/card_detail_screen_controller.dart';
+import 'package:my_library/presentation/home/tab_bar_screens/marked/controller/marked_screen_controller.dart';
+import 'package:my_library/presentation/presentation_screens/controller/auth_controller.dart';
 
-import 'package:my_library/screens/root/controllers/app_root_screen_controller.dart';
-import 'package:my_library/screens/navigation_screens/category_detail/controllers/category_detail_screen_controller.dart';
+import 'package:my_library/presentation/root/controllers/app_root_screen_controller.dart';
+import 'package:my_library/presentation/home/category_detail/controllers/category_detail_screen_controller.dart';
 import 'package:my_library/data/repositories/database.dart';
 
 class MyLibraryBindings extends Bindings {
