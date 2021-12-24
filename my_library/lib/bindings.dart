@@ -1,13 +1,16 @@
 import 'package:get/get.dart';
-import 'package:my_library/presentation/home/add_card/controller/add_card_screen_controller.dart';
-import 'package:my_library/presentation/home/card_detail/card_detail_screen.dart';
-import 'package:my_library/presentation/home/card_detail/controllers/card_detail_screen_controller.dart';
-import 'package:my_library/presentation/home/tab_bar_screens/marked/controller/marked_screen_controller.dart';
-import 'package:my_library/presentation/presentation_screens/controller/auth_controller.dart';
+import 'package:my_library/presentation/pages/entrance/pages/signup/sign_up_controller.dart';
 
-import 'package:my_library/presentation/root/controllers/app_root_screen_controller.dart';
-import 'package:my_library/presentation/home/category_detail/controllers/category_detail_screen_controller.dart';
+import 'package:my_library/presentation/pages/home/pages/add_card/controller/add_card_screen_controller.dart';
+
+import 'package:my_library/presentation/pages/entrance/controller/auth_controller.dart';
+
+import 'package:my_library/presentation/pages/home/controllers/home_screen_controller.dart';
+
 import 'package:my_library/data/repositories/database.dart';
+
+import 'presentation/pages/home/pages/card_detail/controllers/card_detail_screen_controller.dart';
+import 'presentation/pages/home/pages/tab_bar/marked/controller/marked_screen_controller.dart';
 
 class MyLibraryBindings extends Bindings {
   @override
@@ -18,5 +21,6 @@ class MyLibraryBindings extends Bindings {
     Get.lazyPut<AddCardScreenController>(() => AddCardScreenController());
     Get.lazyPut<CardDetailScreenController>(() => CardDetailScreenController());
     Get.lazyPut<MarkedScreenController>(() => MarkedScreenController());
+    Get.lazyPut<SignUpController>(() => SignUpController());
   }
 }

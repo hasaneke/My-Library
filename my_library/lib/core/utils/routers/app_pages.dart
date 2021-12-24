@@ -3,14 +3,16 @@
 import 'package:get/get.dart';
 import 'package:my_library/bindings.dart';
 
-import 'package:my_library/presentation/drawer_screens/settings_screen.dart';
-import 'package:my_library/presentation/home/card_detail/card_detail_screen.dart';
-import 'package:my_library/presentation/presentation_screens/login/login_screen.dart';
-import 'package:my_library/presentation/presentation_screens/signup/sign_up_screen.dart';
+import 'package:my_library/presentation/pages/entrance/pages/login/login_screen.dart';
+import 'package:my_library/presentation/pages/entrance/pages/signup/sign_up_screen.dart';
 
-import 'package:my_library/presentation/root/app_screen_root.dart';
-import 'package:my_library/presentation/home/add_card/page/add_card_screen.dart';
-import 'package:my_library/presentation/home/category_detail/pages/category_detail_screen.dart';
+import 'package:my_library/presentation/pages/home/pages/add_card/page/add_card_screen.dart';
+
+import 'package:my_library/presentation/pages/home/pages/app_screen_root.dart';
+
+import 'package:my_library/presentation/pages/home/pages/card_detail/card_detail_screen.dart';
+import 'package:my_library/presentation/pages/home/pages/category_detail/pages/category_detail_screen.dart';
+import 'package:my_library/presentation/pages/home/pages/drawer/settings_screen.dart';
 
 part 'app_routes.dart';
 
