@@ -57,6 +57,7 @@ dependencies:
   string_validator: ^0.3.0
   connectivity_plus: ^2.1.0
   equatable: ^2.0.3
+  html: ^0.15.0
 
 dev_dependencies:
   flutter_test:

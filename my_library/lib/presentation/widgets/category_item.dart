@@ -18,7 +18,7 @@ class CategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Category category_controller = Get.put(category, tag: category.path);
-    log('created');
+   
     return GestureDetector(
       onTap: () async {
         Get.toNamed(Routes.CATEGORY_DETAIL,

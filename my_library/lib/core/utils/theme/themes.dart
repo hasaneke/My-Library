@@ -27,5 +27,5 @@ abstract class Themes {
         color: Colors.black87,
       ),
       floatingActionButtonTheme:
-          FloatingActionButtonThemeData(backgroundColor: Colors.yellow));
+          const FloatingActionButtonThemeData(backgroundColor: Colors.yellow));
 }
