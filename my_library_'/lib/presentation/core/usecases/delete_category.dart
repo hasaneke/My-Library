@@ -1,5 +1,5 @@
 import 'package:my_library/data/models/category/my_category.dart';
-import 'package:my_library/data/repository/firestore/delete_category_from_firebase.dart';
+import 'package:my_library/data/repository/firebase_firestore/delete_category_from_firebase.dart';
 
 class DeleteCategory {
   static Future<void> recrusiveDeletion(MyCategory myCategory) async {

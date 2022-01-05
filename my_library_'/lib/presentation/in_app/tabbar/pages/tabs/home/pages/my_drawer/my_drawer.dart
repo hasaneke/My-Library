@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:my_library/core/utils/routers/app_pages.dart';
-import 'package:my_library/data/repository/auth/signout_usecase.dart';
+import 'package:my_library/data/repository/firebase_auth/signout_usecase.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({Key? key}) : super(key: key);

@@ -3,10 +3,9 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:my_library/core/utils/consts/signed_user.dart';
 import 'package:my_library/core/utils/routers/app_pages.dart';
-import 'package:my_library/data/repository/auth/signed_user.dart';
-
-import 'package:my_library/data/repository/auth/signup_with_email_and_password_usecase.dart';
+import 'package:my_library/data/repository/firebase_auth/signup_with_email_and_password_usecase.dart';
 
 class SignupController extends GetxController {
   RxString email = RxString('');

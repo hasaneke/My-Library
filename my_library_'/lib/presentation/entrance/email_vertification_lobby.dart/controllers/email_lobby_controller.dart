@@ -4,10 +4,9 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:my_library/core/utils/routers/app_pages.dart';
-import 'package:my_library/data/repository/auth/check_current_user_usecase.dart';
-import 'package:my_library/data/repository/auth/send_email_vertification_usecase.dart';
-
-import 'package:my_library/data/repository/auth/signout_usecase.dart';
+import 'package:my_library/data/repository/firebase_auth/check_current_user_usecase.dart';
+import 'package:my_library/data/repository/firebase_auth/send_email_vertification_usecase.dart';
+import 'package:my_library/data/repository/firebase_auth/signout_usecase.dart';
 
 class EmailVertificationLobbyController extends GetxController {
   Timer? _timer;

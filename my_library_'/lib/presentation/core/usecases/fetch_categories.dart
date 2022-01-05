@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:my_library/data/models/category/my_category.dart';
 
-import 'package:my_library/data/repository/firestore/fetch_categories_from_firebase.dart';
+import 'package:my_library/data/repository/firebase_firestore/fetch_categories_from_firebase.dart';
 import 'package:my_library/presentation/core/usecases/fetch_mycards.dart';
 
 class FetchCategories {
@@ -26,7 +26,9 @@ class FetchCategories {
       log(newMainCat.title.value);
       categories[doc.reference.path] = newMainCat;
 
-      Get.put(newMainCat, tag: newMainCat.path, permanent: true);
+      Get.put(newMainCat,
+          tag: newMainCat.path,
+          permanent: true); //Controller initalization for main cat
     }
     return categories;
   }
@@ -47,7 +49,9 @@ class FetchCategories {
       newSubCat.subCategories.value = await _fetchSubCategories(newSubCat.path);
       subCategories[newSubCat.path] = newSubCat;
 
-      Get.put(newSubCat, tag: newSubCat.path, permanent: true);
+      Get.put(newSubCat,
+          tag: newSubCat.path,
+          permanent: true); // I initialize the controller for sub cat
     }
     return subCategories;
   }

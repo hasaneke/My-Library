@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:my_library/data/models/card/my_card.dart';
 import 'package:my_library/data/models/category/my_category.dart';
 
-import 'package:my_library/data/repository/firestore/delete_mycard_from_firebase.dart';
+import 'package:my_library/data/repository/firebase_firestore/delete_mycard_from_firebase.dart';
 import 'package:my_library/presentation/in_app/tabbar/pages/tabs/all_cards_screen/controller/all_cards_controller.dart';
 import 'package:my_library/presentation/in_app/tabbar/pages/tabs/marked_cards/controllers/marked_cards_controller.dart';
 

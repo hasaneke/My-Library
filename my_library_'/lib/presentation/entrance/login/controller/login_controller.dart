@@ -2,10 +2,10 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my_library/core/utils/consts/signed_user.dart';
 import 'package:my_library/core/utils/routers/app_pages.dart';
-import 'package:my_library/data/repository/auth/signed_user.dart';
+import 'package:my_library/data/repository/firebase_auth/check_current_user_usecase.dart';
 
-import 'package:my_library/data/repository/auth/check_current_user_usecase.dart';
 import 'package:my_library/presentation/entrance/login/usecases/email_password_sign_in_use_case.dart';
 import 'package:my_library/presentation/entrance/login/usecases/email_signin_errors_usecase.dart';
 

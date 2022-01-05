@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-
-import 'package:my_library/data/repository/auth/signed_user.dart';
+import 'package:my_library/core/utils/consts/signed_user.dart';
 
 class SignupWithEmailAndPasswordUsecase {
   static Future<User?> signupWithEmailAndPassword(

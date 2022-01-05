@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:my_library/core/utils/routers/app_pages.dart';
 import 'package:my_library/data/models/category/my_category.dart';
+import 'package:my_library/data/repository/firebase_auth/signout_usecase.dart';
 
-import 'package:my_library/data/repository/auth/signout_usecase.dart';
 import 'package:my_library/presentation/core/data/datastore_controller.dart';
 import 'package:my_library/presentation/in_app/components/add_category_dialog/add_category_dialog.dart';
 
