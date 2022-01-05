@@ -7,14 +7,25 @@ import 'package:my_library/presentation/in_app/tabbar/pages/tabs/marked_cards/co
 class MarkedCardsScreen extends GetView<MarkedCardsController> {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      controller: ScrollController(keepScrollOffset: true),
-      shrinkWrap: true,
-      itemBuilder: (BuildContext context, index) {
-        var card = controller.markedCards.elementAt(index);
-        return MyCardItem(card);
-      },
-      itemCount: controller.markedCards.length,
-    );
+    return Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          title: const Icon(
+            Icons.bookmark,
+            color: Colors.black,
+            size: 45,
+          ),
+          centerTitle: true,
+          backgroundColor: context.theme.scaffoldBackgroundColor,
+        ),
+        body: Obx(() => ListView.builder(
+              controller: ScrollController(keepScrollOffset: true),
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, index) {
+                var card = controller.markedCards.elementAt(index);
+                return MyCardItem(card);
+              },
+              itemCount: controller.markedCards.length,
+            )));
   }
 }

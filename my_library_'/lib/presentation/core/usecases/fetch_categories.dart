@@ -25,8 +25,8 @@ class FetchCategories {
 
       log(newMainCat.title.value);
       categories[doc.reference.path] = newMainCat;
-      MyCategory controller =
-          Get.put(newMainCat, tag: newMainCat.path, permanent: true);
+
+      Get.put(newMainCat, tag: newMainCat.path, permanent: true);
     }
     return categories;
   }
@@ -42,11 +42,12 @@ class FetchCategories {
           path: doc.reference.path,
           title: RxString(doc.get('title')),
           color: Color(doc.get('color_code')));
-      newSubCat.myCards = RxMap(await FetchMyCards.fetchMyCards(path));
+      newSubCat.myCards =
+          RxMap(await FetchMyCards.fetchMyCards(newSubCat.path));
       newSubCat.subCategories.value = await _fetchSubCategories(newSubCat.path);
       subCategories[newSubCat.path] = newSubCat;
-      MyCategory controller =
-          Get.put(newSubCat, tag: newSubCat.path, permanent: true);
+
+      Get.put(newSubCat, tag: newSubCat.path, permanent: true);
     }
     return subCategories;
   }

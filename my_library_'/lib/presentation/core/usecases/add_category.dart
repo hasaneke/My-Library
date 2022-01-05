@@ -12,8 +12,8 @@ class AddCategory {
       AddCategoryToFirebase.addCategoryToFirebase(myCategory: mainCategory);
       DatastoreController datastoreController = Get.find();
       datastoreController.addMainCategory(mainCategory);
-      MyCategory myCategory =
-          Get.put(mainCategory, tag: mainCategory.path, permanent: true);
+
+      Get.put(mainCategory, tag: mainCategory.path, permanent: true);
     } catch (e) {
       log(e.toString());
     }
@@ -25,8 +25,8 @@ class AddCategory {
       MyCategory containerCategory =
           Get.find(tag: subCategory.containerCategoryPath);
       containerCategory.addSubCategory(subCategory);
-      MyCategory myCategory =
-          Get.put(subCategory, tag: subCategory.path, permanent: true);
+
+      Get.put(subCategory, tag: subCategory.path, permanent: true);
     } catch (e) {
       log(e.toString());
     }

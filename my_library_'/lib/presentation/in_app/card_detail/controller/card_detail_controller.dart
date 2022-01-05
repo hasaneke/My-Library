@@ -7,19 +7,22 @@ import 'package:my_library/data/models/card/my_card.dart';
 import 'package:my_library/presentation/core/usecases/delete_mycard.dart';
 
 class CardDetailController extends GetxController {
-  MyCard? assignedCard;
+  late MyCard assignedCard;
   Image? selectedImage;
   RxBool isImageClicked = false.obs;
   displayImage(Image image) {}
   undisplayImage() {}
-  toggleMark() {}
+  toggleMark() {
+    assignedCard.toggleMark();
+  }
+
   onPopUpSelected(String choice) {
     switch (choice) {
       case 'edit':
         log('edit');
         break;
       case 'delete':
-        DeleteMyCard.deleteOneCard(assignedCard!);
+        DeleteMyCard.deleteMyCard(assignedCard);
         Get.back();
     }
   }

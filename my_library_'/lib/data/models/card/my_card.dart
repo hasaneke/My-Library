@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:my_library/presentation/core/usecases/unmark_card.dart';
+import 'package:my_library/presentation/core/usecases/togglemark_mycard.dart';
 
 class MyCard {
   String path;
@@ -45,7 +45,8 @@ class MyCard {
         images: RxList([]));
   }
 
-  unMark() {
+  toggleMark() {
     isMarked!.value = !isMarked!.value;
+    ToggleMarkCard.toggleMarkMyCard(this);
   }
 }
