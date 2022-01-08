@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 
 import 'package:get/get.dart';
-import 'package:my_library/core/utils/consts/signed_user.dart';
-import 'package:my_library/data/models/category/my_category.dart';
 
-import 'package:my_library/presentation/core/usecases/add_category.dart';
+import 'package:my_library/data/models/category/my_category.dart';
+import 'package:my_library/data/repository/firebase_auth/signed_user.dart';
+
+import 'package:my_library/presentation/domain/usecases/add_category.dart';
 import 'package:uuid/uuid.dart';
 
 class AddCategoryDialogController extends GetxController {

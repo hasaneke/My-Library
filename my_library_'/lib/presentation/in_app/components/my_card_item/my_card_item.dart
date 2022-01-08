@@ -12,7 +12,7 @@ class MyCardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var controller = Get.put(myCard, tag: myCard.path);
+    var myCardController = Get.put(myCard, tag: myCard.path);
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
       elevation: 5,
@@ -21,26 +21,28 @@ class MyCardItem extends StatelessWidget {
           onTap: () {
             Get.toNamed(Routes.CARD_DETAIL_SCREEN_ROUTE, arguments: myCard);
           },
-          leading: controller.images!.isNotEmpty
+          leading: myCardController.imageFiles!.isNotEmpty
               ? CircleAvatar(
-                  backgroundImage: controller.images!.first.image,
+                  backgroundImage:
+                      Image.file(myCardController.imageFiles!.values.first)
+                          .image,
                   backgroundColor: Colors.transparent)
               : null,
           title: Text(
-            controller.title!.value,
+            myCardController.title!.value,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: context.textTheme.bodyText2,
           ),
-          subtitle: controller.shortExp!.value != ''
+          subtitle: myCardController.shortExp!.value != ''
               ? Text(
-                  controller.shortExp!.value,
+                  myCardController.shortExp!.value,
                   overflow: TextOverflow.ellipsis,
                   style: context.textTheme.subtitle1,
                 )
               : null,
           trailing: Text(
-            DateFormat.yMMMEd().format(controller.date),
+            DateFormat.yMMMEd().format(myCardController.date),
             style: context.textTheme.overline,
           ),
         ),

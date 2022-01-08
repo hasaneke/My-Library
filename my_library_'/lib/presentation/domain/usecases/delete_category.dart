@@ -11,6 +11,5 @@ class DeleteCategory {
     myCategory.clearCards();
     DeleteCategoryFromFirebaseApi.deleteCategoryFromFirebaseApi(
         myCategory.path);
-    myCategory.subCategories.clear();
   }
 }

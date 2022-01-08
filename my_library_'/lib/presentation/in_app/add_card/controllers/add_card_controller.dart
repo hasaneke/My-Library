@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_library/data/models/card/my_card.dart';
-import 'package:my_library/presentation/core/usecases/add_mycard.dart';
+import 'package:my_library/presentation/domain/usecases/add_mycard.dart';
 import 'package:uuid/uuid.dart';
 
 class AddCardController extends GetxController {
@@ -14,24 +14,23 @@ class AddCardController extends GetxController {
   String shortExp = '';
   String longExp = '';
   RxList<XFile> pickedImages = RxList<XFile>([]);
+  RxList<File> pickedFiles = RxList<File>([]);
   /* ------------------------*/
 
   /* VARIABLES AND METHODS FOR INTERACTION WITH SCREEN*/
-  XFile? selectedXFile;
   XFile? pickedImage;
-
+  Image? tappedImage;
   RxBool isImageClicked = false.obs;
-  RxBool isAddButtonClicked = false.obs;
-  Size deviceSize = Get.size;
+
   ImagePicker picker = ImagePicker();
-  undisplayImage() {
+  undisplayTappedImage() {
     isImageClicked.value = false;
   }
 
-  displayImage(XFile displayedImage) {
+  displayTappedImage(XFile displayedImage) {
     isImageClicked.value = true;
 
-    selectedXFile = displayedImage;
+    tappedImage = Image.file(File(displayedImage.path));
   }
 
   removeImage(XFile removedImage) {
@@ -61,22 +60,22 @@ class AddCardController extends GetxController {
     String pathForNewCard =
         containerCategoryPath + '/cards/' + const Uuid().v1();
     MyCard newCard = MyCard(
-        path: pathForNewCard,
-        containerCatPath: containerCategoryPath,
-        title: RxString(title),
-        shortExp: RxString(shortExp),
-        longExp: RxString(longExp),
-        date: DateTime.now(),
-        isMarked: RxBool(false),
-        images: RxList(convertXFilesToImages()));
-    AddCard.addMyCard(newCard);
+      path: pathForNewCard,
+      containerCatPath: containerCategoryPath,
+      title: RxString(title),
+      shortExp: RxString(shortExp),
+      longExp: RxString(longExp),
+      date: DateTime.now(),
+      isMarked: RxBool(false),
+    );
+    AddCard.addMyCard(newCard, _convertXFilesToFiles());
     Get.back();
   }
 
-  List<Image> convertXFilesToImages() {
-    List<Image> images =
-        pickedImages.map((xFile) => Image.file(File(xFile.path))).toList();
+  List<File> _convertXFilesToFiles() {
+    List<File> imageFiles =
+        pickedImages.map((xFile) => File(xFile.path)).toList();
 
-    return images;
+    return imageFiles;
   }
 }

@@ -23,7 +23,7 @@ class AllCardsScreen extends GetView<AllCardsController> {
               controller: ScrollController(keepScrollOffset: true),
               shrinkWrap: true,
               itemBuilder: (BuildContext context, index) {
-                var card = controller.allCards.elementAt(index);
+                var card = controller.allCards.values.elementAt(index);
                 return MyCardItem(card);
               },
               itemCount: controller.allCards.length,

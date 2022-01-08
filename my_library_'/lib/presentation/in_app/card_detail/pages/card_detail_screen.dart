@@ -11,14 +11,13 @@ class CardDetailScreen extends GetView<CardDetailController> {
 
   @override
   Widget build(BuildContext context) {
-    MyCard card = Get.find(tag: myCard.path);
-    controller.assignedCard = card;
+    controller.assignedCard = myCard;
     final size = MediaQuery.of(context).size;
     return Scaffold(
         body: Obx(
       () => Stack(children: [
         GestureDetector(
-          onTap: () => controller.undisplayImage(),
+          onTap: () => controller.undisplayTappedImage(),
           child: Opacity(
             opacity: controller.isImageClicked.value ? 0.45 : 1,
             child: Column(children: [
@@ -40,7 +39,7 @@ class CardDetailScreen extends GetView<CardDetailController> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15),
                           child: Text(
-                            DateFormat.yMMMEd().format(card.date),
+                            DateFormat.yMMMEd().format(myCard.date),
                             style: const TextStyle(fontSize: 18),
                           ),
                         ),
@@ -52,7 +51,7 @@ class CardDetailScreen extends GetView<CardDetailController> {
                             onPressed: () {
                               controller.toggleMark();
                             },
-                            icon: Obx(() => Icon(card.isMarked!.value
+                            icon: Obx(() => Icon(myCard.isMarked!.value
                                 ? Icons.bookmark
                                 : Icons.bookmark_border_outlined))),
                         PopupMenuButton<String>(
@@ -69,21 +68,21 @@ class CardDetailScreen extends GetView<CardDetailController> {
                   ],
                 ),
               ),
-              card.title!.value.isEmpty &&
-                      card.shortExp!.value.isEmpty &&
-                      card.longExp!.value.isEmpty
+              myCard.title!.value.isEmpty &&
+                      myCard.shortExp!.value.isEmpty &&
+                      myCard.longExp!.value.isEmpty
                   ? Expanded(
-                      child: card.images!.length > 1
+                      child: myCard.imageFiles!.length > 1
                           ? SizedBox(
                               height: 250,
                               child: Obx(
                                 () => ListView(
                                   scrollDirection: Axis.horizontal,
-                                  children: card.images!
+                                  children: myCard.imageFiles!.values
                                       .map(
-                                        (element) => GestureDetector(
-                                          onTap: () =>
-                                              controller.displayImage(element),
+                                        (imageFile) => GestureDetector(
+                                          onTap: () => controller
+                                              .displayTappedImage(imageFile),
                                           child: Row(
                                             children: [
                                               const SizedBox(
@@ -91,7 +90,7 @@ class CardDetailScreen extends GetView<CardDetailController> {
                                               ),
                                               SizedBox(
                                                 height: 250,
-                                                child: element,
+                                                child: Image.file(imageFile),
                                               ),
                                               const SizedBox(
                                                 width: 15,
@@ -105,17 +104,17 @@ class CardDetailScreen extends GetView<CardDetailController> {
                               ),
                             )
                           : Center(
-                              child: Container(
-                                child: card.images!.first,
-                              ),
+                              child: myCard.imageFiles!.values.isNotEmpty
+                                  ? Image.file(myCard.imageFiles!.values.first)
+                                  : Container(),
                             ),
                     )
                   : Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        card.title!.value.isNotEmpty ||
-                                card.shortExp!.value.isNotEmpty ||
-                                card.longExp!.value.isNotEmpty
+                        myCard.title!.value.isNotEmpty ||
+                                myCard.shortExp!.value.isNotEmpty ||
+                                myCard.longExp!.value.isNotEmpty
                             ? SizedBox(
                                 width: MediaQuery.of(context).size.width,
                                 child: Padding(
@@ -133,7 +132,7 @@ class CardDetailScreen extends GetView<CardDetailController> {
                                         flex: 8,
                                         child: Container(
                                           child: textForCard(
-                                              card.title!.value, context),
+                                              myCard.title!.value, context),
                                           decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(15),
@@ -161,19 +160,19 @@ class CardDetailScreen extends GetView<CardDetailController> {
                                 height: 250,
                                 child: ListView(
                                   scrollDirection: Axis.horizontal,
-                                  children: card.images!
+                                  children: myCard.imageFiles!.values
                                       .map(
-                                        (element) => Row(
+                                        (file) => Row(
                                           children: [
                                             const SizedBox(
                                               width: 6,
                                             ),
                                             GestureDetector(
                                               onTap: () => controller
-                                                  .displayImage(element),
+                                                  .displayTappedImage(file),
                                               child: SizedBox(
                                                 height: 250,
-                                                child: element,
+                                                child: Image.file(file),
                                               ),
                                             ),
                                             const SizedBox(
@@ -188,12 +187,12 @@ class CardDetailScreen extends GetView<CardDetailController> {
                             ),
                           ],
                         ),
-                        card.shortExp!.value.isNotEmpty
+                        myCard.shortExp!.value.isNotEmpty
                             ? Padding(
                                 padding: const EdgeInsets.only(top: 15),
                                 child: Container(
                                   child: textForCard(
-                                      card.shortExp!.value, context),
+                                      myCard.shortExp!.value, context),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(15),
                                       border: Border.all(
@@ -201,8 +200,8 @@ class CardDetailScreen extends GetView<CardDetailController> {
                                 ),
                               )
                             : Container(),
-                        card.longExp!.value.isNotEmpty
-                            ? textForCard(card.longExp!.value, context)
+                        myCard.longExp!.value.isNotEmpty
+                            ? textForCard(myCard.longExp!.value, context)
                             : Container(),
                       ],
                     ),
@@ -221,7 +220,7 @@ class CardDetailScreen extends GetView<CardDetailController> {
                       height: size.height * 0.6,
                       width: size.width * 0.7,
                       child: Container(
-                        child: controller.selectedImage,
+                        child: controller.tappedImage,
                       ),
                     ),
                   ),

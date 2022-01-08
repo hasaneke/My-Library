@@ -19,10 +19,11 @@ class InitialBindings extends Bindings {
         () => EmailVertificationLobbyController());
     Get.lazyPut<TabbarController>(() => TabbarController());
     Get.lazyPut<HomeController>(() => HomeController());
+    Get.lazyPut<AllCardsController>(() => AllCardsController());
     Get.lazyPut<AddCategoryDialogController>(
         () => AddCategoryDialogController(),
         fenix: true);
-    Get.lazyPut<AllCardsController>(() => AllCardsController());
+
     Get.lazyPut<AddCardController>(() => AddCardController());
     Get.lazyPut<CardDetailController>(() => CardDetailController());
   }

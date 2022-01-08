@@ -1,7 +1,8 @@
 // ignore_for_file: constant_identifier_names, prefer_const_constructors
 
 import 'package:get/get.dart';
-import 'package:my_library/data/bindings/bindings.dart';
+import 'package:my_library/presentation/domain/bindings/bindings.dart';
+import 'package:my_library/presentation/domain/bindings/homebindings.dart';
 import 'package:my_library/presentation/entrance/email_vertification_lobby.dart/pages/email_vertification_lobby_screen.dart';
 import 'package:my_library/presentation/entrance/login/pages/login_screen.dart';
 import 'package:my_library/presentation/entrance/signup/pages/sign_up_screen.dart';
@@ -33,20 +34,20 @@ class AppPages {
     GetPage(
         name: Routes.TABBAR_SCREEN_ROUTE,
         page: () => TabbarScreen(),
-        binding: InitialBindings()),
+        binding: HomeBindings()),
     GetPage(
-      name: Routes.CATEGORY_DETAIL_SCREEN_ROUTE,
-      page: () => CategoryDetailScreen(),
-    ),
+        name: Routes.CATEGORY_DETAIL_SCREEN_ROUTE,
+        page: () => CategoryDetailScreen(),
+        binding: HomeBindings()),
     GetPage(
       name: Routes.ADD_CARD_SCREE_ROUTE,
       page: () => AddCardScreen(),
-      binding: InitialBindings(),
+      binding: HomeBindings(),
     ),
     GetPage(
       name: Routes.CARD_DETAIL_SCREEN_ROUTE,
       page: () => CardDetailScreen(),
-      binding: InitialBindings(),
+      binding: HomeBindings(),
     )
   ];
 }

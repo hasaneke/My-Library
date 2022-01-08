@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:my_library/data/models/category/my_category.dart';
 
 import 'package:my_library/data/repository/firebase_firestore/fetch_categories_from_firebase.dart';
-import 'package:my_library/presentation/core/usecases/fetch_mycards.dart';
+import 'package:my_library/presentation/domain/usecases/fetch_mycards.dart';
 
 class FetchCategories {
   static Future<Map<String, MyCategory>> fetchMainCategories(

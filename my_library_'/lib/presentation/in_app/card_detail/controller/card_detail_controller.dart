@@ -1,17 +1,24 @@
-import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:my_library/data/models/card/my_card.dart';
-import 'package:my_library/presentation/core/usecases/delete_mycard.dart';
+import 'package:my_library/presentation/domain/usecases/delete_mycard.dart';
 
 class CardDetailController extends GetxController {
   late MyCard assignedCard;
-  Image? selectedImage;
+  Image? tappedImage;
   RxBool isImageClicked = false.obs;
-  displayImage(Image image) {}
-  undisplayImage() {}
+  displayTappedImage(File image) {
+    isImageClicked.value = !isImageClicked.value;
+    tappedImage = Image.file(image);
+  }
+
+  undisplayTappedImage() {
+    isImageClicked.value = false;
+  }
+
   toggleMark() {
     assignedCard.toggleMark();
   }
@@ -19,7 +26,7 @@ class CardDetailController extends GetxController {
   onPopUpSelected(String choice) {
     switch (choice) {
       case 'edit':
-        log('edit');
+        assignedCard.title!.value = "Has changed";
         break;
       case 'delete':
         DeleteMyCard.deleteMyCard(assignedCard);

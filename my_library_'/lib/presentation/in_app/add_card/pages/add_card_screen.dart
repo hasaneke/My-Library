@@ -11,13 +11,14 @@ import 'package:my_library/presentation/in_app/add_card/controllers/add_card_con
 class AddCardScreen extends GetView<AddCardController> {
   AddCardScreen({Key? key}) : super(key: key);
   MyCategory myCategory = Get.arguments;
+  final size = Get.size;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(
         () => Stack(children: [
           GestureDetector(
-            onTap: controller.undisplayImage,
+            onTap: controller.undisplayTappedImage,
             child: Opacity(
               opacity: controller.isImageClicked.value ? 0.4 : 1,
               child: SingleChildScrollView(
@@ -96,7 +97,7 @@ class AddCardScreen extends GetView<AddCardController> {
                                                     Stack(children: [
                                                       InkWell(
                                                         onTap: () => controller
-                                                            .displayImage(
+                                                            .displayTappedImage(
                                                                 image),
                                                         child: SizedBox(
                                                           height: 250,
@@ -205,12 +206,10 @@ class AddCardScreen extends GetView<AddCardController> {
                   child: Center(
                     child: InteractiveViewer(
                       child: SizedBox(
-                        height: controller.deviceSize.height * 0.6,
-                        width: controller.deviceSize.width * 0.7,
-                        child: Image.file(
-                          File.fromUri(
-                              Uri(path: controller.selectedXFile!.path)),
-                          fit: BoxFit.cover,
+                        height: size.height * 0.6,
+                        width: size.width * 0.7,
+                        child: Container(
+                          child: controller.tappedImage,
                         ),
                       ),
                     ),

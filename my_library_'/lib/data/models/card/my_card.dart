@@ -1,15 +1,19 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:my_library/presentation/core/usecases/togglemark_mycard.dart';
+import 'dart:io';
 
-class MyCard {
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
+import 'package:my_library/presentation/domain/usecases/togglemark_mycard.dart';
+
+class MyCard extends GetxController {
   String path;
   String containerCatPath;
   RxString? title;
   RxString? shortExp;
   RxString? longExp;
-  RxList<Image>? images = RxList([]);
+
+  Map<String, File>? imageFiles = RxMap<String, File>({});
+  Map<String, File>? otherFiles = RxMap<String, File>({});
+
   RxBool? isMarked = RxBool(false);
   DateTime date;
   MyCard({
@@ -18,7 +22,6 @@ class MyCard {
     this.title,
     this.shortExp,
     this.longExp,
-    this.images,
     this.isMarked,
     required this.date,
   });
@@ -35,14 +38,14 @@ class MyCard {
   static MyCard docToMyCard(
       String containerCatPath, QueryDocumentSnapshot doc) {
     return MyCard(
-        path: doc.reference.path,
-        containerCatPath: containerCatPath,
-        title: RxString(doc.get('title')),
-        shortExp: RxString(doc.get('shortExp')),
-        longExp: RxString(doc.get('longExp')),
-        date: DateTime.parse(doc.get('date')),
-        isMarked: RxBool(doc.get('isMarked')),
-        images: RxList([]));
+      path: doc.reference.path,
+      containerCatPath: containerCatPath,
+      title: RxString(doc.get('title')),
+      shortExp: RxString(doc.get('shortExp')),
+      longExp: RxString(doc.get('longExp')),
+      date: DateTime.parse(doc.get('date')),
+      isMarked: RxBool(doc.get('isMarked')),
+    );
   }
 
   toggleMark() {

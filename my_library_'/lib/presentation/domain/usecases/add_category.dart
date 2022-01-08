@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:my_library/data/models/category/my_category.dart';
 import 'package:my_library/data/repository/firebase_firestore/add_category_to_firebase.dart';
-import 'package:my_library/presentation/core/data/datastore_controller.dart';
+import 'package:my_library/presentation/domain/data/datastore_controller.dart';
 
 class AddCategory {
   static Future<void> addMainCategory(

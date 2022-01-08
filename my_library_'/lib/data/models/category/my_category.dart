@@ -3,13 +3,14 @@ import 'dart:ui';
 
 import 'package:get/get.dart';
 import 'package:my_library/data/models/card/my_card.dart';
+import 'package:my_library/data/repository/firebase_firestore/delete_mycard_from_firebase.dart';
 
-import 'package:my_library/presentation/core/data/datastore_controller.dart';
+import 'package:my_library/presentation/domain/data/datastore_controller.dart';
 
-import 'package:my_library/presentation/core/usecases/delete_category.dart';
-import 'package:my_library/presentation/core/usecases/delete_mycard.dart';
+import 'package:my_library/presentation/domain/usecases/delete_category.dart';
 
-import 'package:my_library/presentation/core/usecases/update_category_title.dart';
+import 'package:my_library/presentation/domain/usecases/update_category_title.dart';
+import 'package:my_library/presentation/in_app/tabbar/pages/tabs/all_cards_screen/controller/all_cards_controller.dart';
 
 class MyCategory extends GetxController {
   String containerCategoryPath;
@@ -34,6 +35,8 @@ class MyCategory extends GetxController {
 
   Future<void> addSubCategory(MyCategory myCategory) async {
     subCategories[myCategory.path] = myCategory;
+
+    log('added');
   }
 
   Future<void> destroy() async {
@@ -50,7 +53,7 @@ class MyCategory extends GetxController {
 
   Future<void> clearCards() async {
     for (var myCard in myCards.values) {
-      DeleteMyCard.deleteMyCard(myCard);
+      DeleteMyCardFromFirebaseApi.deleteMyCardFromFirebaseApi(myCard.path);
     }
   }
 
@@ -59,14 +62,13 @@ class MyCategory extends GetxController {
   }
 
   @override
-  void onReady() {
-    log(title + 'called again');
-    super.onReady();
-  }
-
-  @override
   void onInit() {
-    log(title + 'is initialized');
+    myCards.listen((myCards) {
+      AllCardsController allCardsController = Get.find();
+      for (var myCard in myCards.values) {
+        allCardsController.addInAllCards(myCard);
+      }
+    });
     super.onInit();
   }
 }
