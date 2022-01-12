@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:my_library/core/utils/popupmenu/pop_up_menu_constants.dart';
+import 'package:my_library/core/utils/consts/pop_up_menu_constants.dart';
 import 'package:my_library/data/models/category/my_category.dart';
 import 'package:my_library/presentation/in_app/category_detail/componenets/appbar/controller/category_detail_appbar_controller.dart';
 

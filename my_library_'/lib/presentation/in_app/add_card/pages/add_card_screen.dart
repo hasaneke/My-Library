@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -82,6 +83,13 @@ class AddCardScreen extends GetView<AddCardController> {
                                         size: 35,
                                       ),
                                     ),
+                                    IconButton(
+                                      onPressed: controller.pickFile,
+                                      icon: const FaIcon(
+                                        FontAwesomeIcons.fileUpload,
+                                        size: 30,
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),
@@ -130,8 +138,30 @@ class AddCardScreen extends GetView<AddCardController> {
                                       ),
                                     ),
                               const SizedBox(
-                                height: 15,
+                                height: 6,
                               ),
+                              controller.pickedFiles.isNotEmpty
+                                  ? Column(
+                                      children: controller.pickedFiles
+                                          .map(
+                                            (file) => ListTile(
+                                              leading: CircleAvatar(
+                                                backgroundColor: Colors.white,
+                                                backgroundImage: Image.asset(
+                                                  'assets/pdf-icon.png',
+                                                  fit: BoxFit.cover,
+                                                ).image,
+                                              ),
+                                              title: Text(
+                                                  file.path.split('/').last),
+                                              onTap: () {
+                                                log(file.path.split('/').last);
+                                              },
+                                            ),
+                                          )
+                                          .toList(),
+                                    )
+                                  : Container(),
                               Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(7),

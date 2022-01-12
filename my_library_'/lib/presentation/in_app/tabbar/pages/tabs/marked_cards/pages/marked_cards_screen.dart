@@ -22,10 +22,10 @@ class MarkedCardsScreen extends GetView<MarkedCardsController> {
               controller: ScrollController(keepScrollOffset: true),
               shrinkWrap: true,
               itemBuilder: (BuildContext context, index) {
-                var card = controller.markedCards.elementAt(index);
+                var card = controller.markedCards.values.elementAt(index);
                 return MyCardItem(card);
               },
-              itemCount: controller.markedCards.length,
+              itemCount: controller.markedCards.values.length,
             )));
   }
 }

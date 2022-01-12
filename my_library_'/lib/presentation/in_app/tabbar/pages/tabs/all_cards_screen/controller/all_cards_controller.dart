@@ -18,7 +18,6 @@ class AllCardsController extends GetxController {
 
   @override
   void onInit() {
-    DatastoreController datastoreController = Get.find();
     for (var mainCat in datastoreController.maincategories.values) {
       _getAllCards(mainCat);
     }

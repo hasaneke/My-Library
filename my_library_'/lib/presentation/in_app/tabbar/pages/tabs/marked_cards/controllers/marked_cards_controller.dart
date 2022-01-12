@@ -1,23 +1,28 @@
-import 'dart:developer';
-
 import 'package:get/get.dart';
 import 'package:my_library/data/models/card/my_card.dart';
+import 'package:my_library/presentation/in_app/tabbar/pages/tabs/all_cards_screen/controller/all_cards_controller.dart';
 
 class MarkedCardsController extends GetxController {
-  final RxList<MyCard> _markedCards = RxList<MyCard>([]);
-  RxList<MyCard> get markedCards => _markedCards;
+  final RxMap<String, MyCard> _markedCards = RxMap<String, MyCard>({});
+  RxMap<String, MyCard> get markedCards => _markedCards;
 
-  void addMyCardToMarkedCardslist(MyCard myCard) {
-    _markedCards.add(myCard);
+  void addMyCardToMarkedCards(MyCard myCard) {
+    _markedCards[myCard.path] = myCard;
   }
 
-  void removeMyCardFromMarkedCardsList(MyCard myCard) {
-    _markedCards.remove(myCard);
+  void removeMyCardFromMarkedCards(MyCard myCard) {
+    _markedCards.remove(myCard.path);
   }
 
   @override
   void onInit() {
-    log('marked controller');
+    AllCardsController allCardsController = Get.find();
+    for (var element in allCardsController.allCards.values) {
+      if (element.isMarked!.value) {
+        _markedCards[element.path] = element;
+      }
+    }
+
     super.onInit();
   }
 }

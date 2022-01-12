@@ -9,9 +9,9 @@ class ToggleMarkCard {
     ToggleMyCardFirebaseApi.toggleMarkMyCardFirebaseApi(myCard);
     MarkedCardsController markedCardsController = Get.find();
     if (myCard.isMarked!.value) {
-      markedCardsController.addMyCardToMarkedCardslist(myCard);
+      markedCardsController.addMyCardToMarkedCards(myCard);
     } else {
-      markedCardsController.removeMyCardFromMarkedCardsList(myCard);
+      markedCardsController.removeMyCardFromMarkedCards(myCard);
     }
   }
 }

@@ -1,7 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:my_library/core/utils/popupmenu/pop_up_menu_constants.dart';
+import 'package:my_library/core/utils/consts/pop_up_menu_constants.dart';
 import 'package:my_library/data/models/card/my_card.dart';
 import 'package:my_library/presentation/in_app/card_detail/controller/card_detail_controller.dart';
 
@@ -153,39 +155,61 @@ class CardDetailScreen extends GetView<CardDetailController> {
                                 ),
                               )
                             : Container(),
-                        Column(
-                          children: [
-                            Center(
-                              child: SizedBox(
-                                height: 250,
-                                child: ListView(
-                                  scrollDirection: Axis.horizontal,
-                                  children: myCard.imageFiles!.values
-                                      .map(
-                                        (file) => Row(
-                                          children: [
-                                            const SizedBox(
-                                              width: 6,
-                                            ),
-                                            GestureDetector(
-                                              onTap: () => controller
-                                                  .displayTappedImage(file),
-                                              child: SizedBox(
-                                                height: 250,
-                                                child: Image.file(file),
+                        myCard.imageFiles!.values.isNotEmpty
+                            ? Column(
+                                children: [
+                                  Center(
+                                    child: SizedBox(
+                                      height: 250,
+                                      child: ListView(
+                                        scrollDirection: Axis.horizontal,
+                                        children: myCard.imageFiles!.values
+                                            .map(
+                                              (file) => Row(
+                                                children: [
+                                                  const SizedBox(
+                                                    width: 6,
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () => controller
+                                                        .displayTappedImage(
+                                                            file),
+                                                    child: SizedBox(
+                                                      height: 250,
+                                                      child: Image.file(file),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 15,
+                                                  )
+                                                ],
                                               ),
-                                            ),
-                                            const SizedBox(
-                                              width: 15,
                                             )
-                                          ],
-                                        ),
-                                      )
-                                      .toList(),
+                                            .toList(),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Container(),
+                        Column(
+                          children: myCard.otherFiles!.values
+                              .map(
+                                (file) => ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    backgroundImage: Image.asset(
+                                      'assets/pdf-icon.png',
+                                      fit: BoxFit.cover,
+                                    ).image,
+                                  ),
+                                  title: Text(file.path.split('/').last),
+                                  onTap: () {
+                                    log(file.path.split('/').last);
+                                  },
                                 ),
-                              ),
-                            ),
-                          ],
+                              )
+                              .toList(),
                         ),
                         myCard.shortExp!.value.isNotEmpty
                             ? Padding(
@@ -217,8 +241,8 @@ class CardDetailScreen extends GetView<CardDetailController> {
                 child: Center(
                   child: InteractiveViewer(
                     child: SizedBox(
-                      height: size.height * 0.6,
-                      width: size.width * 0.7,
+                      height: size.height * 0.7,
+                      width: size.width * 0.9,
                       child: Container(
                         child: controller.tappedImage,
                       ),
