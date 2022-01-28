@@ -1,53 +1,54 @@
 // ignore_for_file: constant_identifier_names, prefer_const_constructors
 
 import 'package:get/get.dart';
-import 'package:my_library/bindings.dart';
+import 'package:my_library/presentation/domain/bindings/bindings.dart';
+import 'package:my_library/presentation/domain/bindings/homebindings.dart';
+import 'package:my_library/presentation/entrance/email_vertification_lobby.dart/pages/email_vertification_lobby_screen.dart';
+import 'package:my_library/presentation/entrance/login/pages/login_screen.dart';
+import 'package:my_library/presentation/entrance/signup/pages/sign_up_screen.dart';
+import 'package:my_library/presentation/in_app/add_card/pages/add_card_screen.dart';
+import 'package:my_library/presentation/in_app/card_detail/pages/card_detail_screen.dart';
 
-import 'package:my_library/presentation/pages/entrance/pages/login/login_screen.dart';
-import 'package:my_library/presentation/pages/entrance/pages/signup/sign_up_screen.dart';
+import 'package:my_library/presentation/in_app/category_detail/pages/category_detail_screen/category_detail_screen.dart';
 
-import 'package:my_library/presentation/pages/home/pages/add_card/page/add_card_screen.dart';
-
-import 'package:my_library/presentation/pages/home/pages/app_screen_root.dart';
-
-import 'package:my_library/presentation/pages/home/pages/card_detail/card_detail_screen.dart';
-import 'package:my_library/presentation/pages/home/pages/category_detail/pages/category_detail_screen.dart';
-import 'package:my_library/presentation/pages/home/pages/drawer/settings_screen.dart';
+import 'package:my_library/presentation/in_app/tabbar/tabbar_screen.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
-  static const INITIAL = _Paths.LOGIN;
+  static const INITIAL = Routes.LOGIN_SCREEN_ROUTE;
 
   static final routes = [
     GetPage(
-        name: _Paths.LOGIN,
+        name: Routes.LOGIN_SCREEN_ROUTE,
         page: () => LoginScreen(),
-        binding: MyLibraryBindings()),
+        binding: InitialBindings()),
     GetPage(
-        name: _Paths.HOME,
-        page: () => AppRootScreen(),
-        binding: MyLibraryBindings()),
-    GetPage(
-        name: _Paths.SIGN_UP,
+        name: Routes.SIGN_UP_SCREEN_ROUTE,
         page: () => SignUpScreen(),
-        binding: MyLibraryBindings()),
+        binding: InitialBindings()),
     GetPage(
-        name: _Paths.CATEGORY_DETAIL_SCREEN,
+        name: Routes.EMAIL_VERTIFICATION_LOBBY_SCREEN_ROUTE,
+        page: () => EmailVertificationLobbyScreen(),
+        binding: InitialBindings()),
+    GetPage(
+        name: Routes.TABBAR_SCREEN_ROUTE,
+        page: () => TabbarScreen(),
+        binding: HomeBindings()),
+    GetPage(
+        name: Routes.CATEGORY_DETAIL_SCREEN_ROUTE,
         page: () => CategoryDetailScreen(),
-        binding: MyLibraryBindings()),
+        binding: HomeBindings()),
     GetPage(
-        name: _Paths.SETTINGS,
-        page: () => SettingsScreen(),
-        binding: MyLibraryBindings()),
+      name: Routes.ADD_CARD_SCREE_ROUTE,
+      page: () => AddCardScreen(),
+      binding: HomeBindings(),
+    ),
     GetPage(
-        name: _Paths.ADD_CARD_SCREEN,
-        page: () => AddCardScreen(),
-        binding: MyLibraryBindings()),
-    GetPage(
-        name: _Paths.CARD_DETAIL_SCREEN,
-        page: () => CardDetailScreen(),
-        binding: MyLibraryBindings())
+      name: Routes.CARD_DETAIL_SCREEN_ROUTE,
+      page: () => CardDetailScreen(),
+      binding: HomeBindings(),
+    )
   ];
 }
