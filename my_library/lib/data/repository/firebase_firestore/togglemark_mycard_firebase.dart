@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:my_library/data/models/card/my_card.dart';
 
-class ToggleMyCardFirebaseApi {
+class ToggleMyCardFirestoreApi {
   static Future<void> toggleMarkMyCardFirebaseApi(MyCard myCard) async {
     try {
       await FirebaseFirestore.instance

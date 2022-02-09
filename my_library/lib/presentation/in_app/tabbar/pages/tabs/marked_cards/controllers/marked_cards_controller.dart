@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:my_library/data/models/card/my_card.dart';
-import 'package:my_library/presentation/in_app/tabbar/pages/tabs/all_cards_screen/controller/all_cards_controller.dart';
+import 'package:my_library/domain/data/datastore_controller.dart';
 
 class MarkedCardsController extends GetxController {
   final RxMap<String, MyCard> _markedCards = RxMap<String, MyCard>({});
@@ -16,10 +16,10 @@ class MarkedCardsController extends GetxController {
 
   @override
   void onInit() {
-    AllCardsController allCardsController = Get.find();
-    for (var element in allCardsController.allCards.values) {
-      if (element.isMarked!.value) {
-        _markedCards[element.path] = element;
+    DatastoreController datastoreController = Get.find();
+    for (var card in datastoreController.allCards.values) {
+      if (card.isMarked!.value) {
+        _markedCards[card.path] = card;
       }
     }
 

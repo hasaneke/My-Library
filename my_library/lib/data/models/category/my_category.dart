@@ -5,11 +5,11 @@ import 'package:get/get.dart';
 import 'package:my_library/data/models/card/my_card.dart';
 import 'package:my_library/data/repository/firebase_firestore/delete_mycard_from_firebase.dart';
 
-import 'package:my_library/presentation/domain/data/datastore_controller.dart';
+import 'package:my_library/domain/data/datastore_controller.dart';
 
-import 'package:my_library/presentation/domain/usecases/delete_category.dart';
+import 'package:my_library/domain/usecases/mycategory/delete_category.dart';
+import 'package:my_library/domain/usecases/mycategory/update_category_title.dart';
 
-import 'package:my_library/presentation/domain/usecases/update_category_title.dart';
 import 'package:my_library/presentation/in_app/tabbar/pages/tabs/all_cards_screen/controller/all_cards_controller.dart';
 import 'package:my_library/presentation/in_app/tabbar/pages/tabs/marked_cards/controllers/marked_cards_controller.dart';
 
@@ -58,7 +58,7 @@ class MyCategory extends GetxController {
     for (var myCard in myCards.values) {
       allCardsController.removeFromAllCardslist(myCard);
       markedCardsController.removeMyCardFromMarkedCards(myCard);
-      DeleteMyCardFromFirebaseApi.deleteMyCardFromFirebaseApi(myCard.path);
+      DeleteMyCardFromFirestoreApi.deleteMyCardFromFirebaseApi(myCard.path);
     }
   }
 
@@ -75,5 +75,11 @@ class MyCategory extends GetxController {
       }
     });
     super.onInit();
+  }
+
+  @override
+  void dispose() {
+    Get.delete<MyCategory>(force: true);
+    super.dispose();
   }
 }

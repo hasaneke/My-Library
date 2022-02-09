@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:my_library/core/utils/routers/app_pages.dart';
 import 'package:my_library/data/models/card/my_card.dart';
 
 import 'package:my_library/data/models/category/my_category.dart';
@@ -14,14 +13,17 @@ class CategoryDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MyCategory myCategory = Get.arguments;
-
+    CategoryDetailController controller = Get.put(
+        CategoryDetailController(myCategory: myCategory),
+        tag: myCategory.path);
     return Scaffold(
       body: SingleChildScrollView(
           child: Obx(
         () => Column(
           children: [
             CategoryDetailAppbar(myCategory),
-            (myCategory.myCards.isEmpty && myCategory.subCategories.isEmpty)
+            (controller.myCategory.myCards.isEmpty &&
+                    myCategory.subCategories.isEmpty)
                 ? SizedBox(
                     height: Get.size.height,
                     child: const Center(
@@ -30,7 +32,7 @@ class CategoryDetailScreen extends StatelessWidget {
                   )
                 : Column(
                     children: [
-                      _bodyForCategories(myCategory),
+                      _bodyForCategories(myCategory, controller),
                       cardListView(myCategory.myCards)
                     ],
                   )
@@ -42,7 +44,7 @@ class CategoryDetailScreen extends StatelessWidget {
             context.theme.floatingActionButtonTheme.backgroundColor,
         child: const Icon(Icons.add, color: Colors.black),
         onPressed: () {
-          Get.toNamed(Routes.ADD_CARD_SCREE_ROUTE, arguments: myCategory);
+          controller.goToAddCardScreen();
         },
       ),
     );
@@ -60,10 +62,8 @@ class CategoryDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _bodyForCategories(MyCategory myCategory) {
-    CategoryDetailController controller =
-        Get.put(CategoryDetailController(), tag: myCategory.path);
-
+  Widget _bodyForCategories(
+      MyCategory myCategory, CategoryDetailController controller) {
     return myCategory.subCategories.isNotEmpty
         ? controller.isCatOpened.value
             ? Padding(
@@ -75,7 +75,7 @@ class CategoryDetailScreen extends StatelessWidget {
                       border: Border.all(color: Colors.black54, width: 2)),
                   child: Column(
                     children: [
-                      MyCategoryGridView(myCategory.subCategories),
+                      MyCategoryGridView(controller.myCategory.subCategories),
                       IconButton(
                           onPressed: () => controller.toggleCat(),
                           icon: const Icon(

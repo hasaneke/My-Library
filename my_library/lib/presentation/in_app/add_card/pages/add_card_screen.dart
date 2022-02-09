@@ -5,14 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-import 'package:my_library/data/models/category/my_category.dart';
 import 'package:my_library/presentation/in_app/add_card/controllers/add_card_controller.dart';
 
-// ignore: must_be_immutable
+// ignore: must_be_immutable, use_key_in_widget_constructors
 class AddCardScreen extends GetView<AddCardController> {
-  AddCardScreen({Key? key}) : super(key: key);
-  MyCategory myCategory = Get.arguments;
-  final size = Get.size;
+  String catPath = Get.arguments;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,26 +138,7 @@ class AddCardScreen extends GetView<AddCardController> {
                                 height: 6,
                               ),
                               controller.pickedFiles.isNotEmpty
-                                  ? Column(
-                                      children: controller.pickedFiles
-                                          .map(
-                                            (file) => ListTile(
-                                              leading: CircleAvatar(
-                                                backgroundColor: Colors.white,
-                                                backgroundImage: Image.asset(
-                                                  'assets/pdf-icon.png',
-                                                  fit: BoxFit.cover,
-                                                ).image,
-                                              ),
-                                              title: Text(
-                                                  file.path.split('/').last),
-                                              onTap: () {
-                                                log(file.path.split('/').last);
-                                              },
-                                            ),
-                                          )
-                                          .toList(),
-                                    )
+                                  ? otherFilesListView()
                                   : Container(),
                               Card(
                                 shape: RoundedRectangleBorder(
@@ -211,7 +189,7 @@ class AddCardScreen extends GetView<AddCardController> {
                                   onPressed: controller.isUploading.value
                                       ? null
                                       : () =>
-                                          controller.addCard(myCategory.path),
+                                          controller.addCard(catPath: catPath),
                                   child: Text(
                                     'add'.tr,
                                     style: TextStyle(
@@ -238,8 +216,8 @@ class AddCardScreen extends GetView<AddCardController> {
                   child: Center(
                     child: InteractiveViewer(
                       child: SizedBox(
-                        height: size.height * 0.6,
-                        width: size.width * 0.7,
+                        height: controller.size.height * 0.6,
+                        width: controller.size.width * 0.7,
                         child: Container(
                           child: controller.tappedImage,
                         ),
@@ -250,6 +228,33 @@ class AddCardScreen extends GetView<AddCardController> {
               : Container(),
         ]),
       ),
+    );
+  }
+
+  Column otherFilesListView() {
+    return Column(
+      children: controller.pickedFiles
+          .map(
+            (file) => ListTile(
+              leading: CircleAvatar(
+                backgroundColor: Colors.white,
+                backgroundImage: Image.asset(
+                  'assets/pdf-icon.png',
+                  fit: BoxFit.cover,
+                ).image,
+              ),
+              title: Text(file.path.split('/').last),
+              onTap: () {
+                log(file.path.split('/').last);
+              },
+              trailing: IconButton(
+                  onPressed: () {
+                    controller.removeFile(file);
+                  },
+                  icon: const Icon(Icons.delete)),
+            ),
+          )
+          .toList(),
     );
   }
 }

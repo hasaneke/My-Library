@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -8,27 +7,27 @@ import 'package:image_picker/image_picker.dart';
 import 'package:my_library/core/utils/consts/allowed_extensions.dart';
 
 import 'package:my_library/data/models/card/my_card.dart';
-import 'package:my_library/presentation/domain/usecases/add_mycard.dart';
+import 'package:my_library/domain/usecases/mycard/add_mycard.dart';
 import 'package:uuid/uuid.dart';
 
 class AddCardController extends GetxController {
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  /* VARIABLES TO ADD CARD*/
   String title = '';
   String shortExp = '';
   String longExp = '';
   RxList<XFile> pickedImages = RxList<XFile>([]);
   RxList<File> pickedFiles = RxList<File>([]);
 
-  /* ------------------------*/
+  Map<String, dynamic> data = <String, dynamic>{};
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   /* VARIABLES AND METHODS FOR INTERACTION WITH SCREEN*/
+  Size size = Get.size;
   XFile? pickedImage;
   Image? tappedImage;
   RxBool isImageClicked = false.obs;
   RxBool isUploading = false.obs;
   final ImagePicker _picker = ImagePicker();
-
+  /* ******************************************** */
   undisplayTappedImage() {
     isImageClicked.value = false;
   }
@@ -37,10 +36,6 @@ class AddCardController extends GetxController {
     isImageClicked.value = true;
 
     tappedImage = Image.file(File(displayedImage.path));
-  }
-
-  removeImage(XFile removedImage) {
-    pickedImages.remove(removedImage);
   }
 
   /* -------------------------------------- */
@@ -69,17 +64,24 @@ class AddCardController extends GetxController {
       pickedFiles.addAll(results.files.map((e) => File(e.path!)));
     }
   }
-  /* ----------------- */
 
-  addCard(String containerCategoryPath) {
+  /* ----------------- */
+  removeImage(XFile removedImage) {
+    pickedImages.remove(removedImage);
+  }
+
+  removeFile(File file) {
+    pickedFiles.remove(file);
+  }
+
+  addCard({required String catPath}) {
     formKey.currentState!.save();
     isUploading.value = true;
-    log(isUploading.value.toString());
-    String pathForNewCard =
-        containerCategoryPath + '/cards/' + const Uuid().v1();
+
+    String path = catPath + '/cards/' + const Uuid().v1();
     MyCard newCard = MyCard(
-        path: pathForNewCard,
-        containerCatPath: containerCategoryPath,
+        path: path,
+        containerCatPath: catPath,
         title: RxString(title),
         shortExp: RxString(shortExp),
         longExp: RxString(longExp),

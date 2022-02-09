@@ -1,9 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:my_library/core/utils/consts/pop_up_menu_constants.dart';
+import 'package:my_library/data/models/card/files/fire_image_file.dart';
+import 'package:my_library/data/models/card/files/fire_other_file.dart';
 import 'package:my_library/data/models/card/my_card.dart';
 
 import 'package:my_library/presentation/in_app/card_detail/controller/card_detail_controller.dart';
@@ -14,8 +14,9 @@ class CardDetailScreen extends GetView<CardDetailController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.assignedCard = myCard;
-    final size = MediaQuery.of(context).size;
+    CardDetailController controller =
+        Get.put(CardDetailController(assignedCard: myCard));
+
     return Scaffold(
         body: Obx(
       () => Stack(children: [
@@ -83,25 +84,8 @@ class CardDetailScreen extends GetView<CardDetailController> {
                                   scrollDirection: Axis.horizontal,
                                   children: myCard.fireImageFileList
                                       .map(
-                                        (fireImageFile) => GestureDetector(
-                                          onTap: () =>
-                                              controller.displayTappedImage(
-                                                  fireImageFile.image),
-                                          child: Row(
-                                            children: [
-                                              const SizedBox(
-                                                width: 6,
-                                              ),
-                                              SizedBox(
-                                                height: 250,
-                                                child: fireImageFile.image,
-                                              ),
-                                              const SizedBox(
-                                                width: 15,
-                                              )
-                                            ],
-                                          ),
-                                        ),
+                                        (fireImageFile) => imageFileWidget(
+                                            fireImageFile), // IMAGE FILE WIDGET
                                       )
                                       .toList(),
                                 ),
@@ -198,27 +182,8 @@ class CardDetailScreen extends GetView<CardDetailController> {
                         Column(
                           children: myCard.fireOtherFileList
                               .map(
-                                (fireOtherFile) => ListTile(
-                                  // trailing: IconButton(
-                                  //     onPressed: () {
-                                  //       controller.deleteFile(
-                                  //           fireOtherFile.downloadUrl);
-                                  //     },
-                                  //     icon: Icon(Icons.delete)),
-                                  leading: CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    backgroundImage: Image.asset(
-                                      'assets/pdf-icon.png',
-                                      fit: BoxFit.cover,
-                                    ).image,
-                                  ),
-                                  title: Text(fireOtherFile.name),
-                                  onTap: () {
-                                    controller.downloadFile(
-                                        fireOtherFile.downloadUrl,
-                                        fireOtherFile.name);
-                                  },
-                                ),
+                                (fireOtherFile) =>
+                                    otherFileWidget(fireOtherFile),
                               )
                               .toList(),
                         ),
@@ -252,8 +217,8 @@ class CardDetailScreen extends GetView<CardDetailController> {
                 child: Center(
                   child: InteractiveViewer(
                     child: SizedBox(
-                      height: size.height * 0.7,
-                      width: size.width * 0.9,
+                      height: controller.size.height * 0.7,
+                      width: controller.size.width * 0.9,
                       child: Container(
                         child: controller.tappedImage,
                       ),
@@ -264,6 +229,42 @@ class CardDetailScreen extends GetView<CardDetailController> {
             : Container(),
       ]),
     ));
+  }
+
+  ListTile otherFileWidget(FireOtherFile fireOtherFile) {
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundColor: Colors.white,
+        backgroundImage: Image.asset(
+          'assets/pdf-icon.png',
+          fit: BoxFit.cover,
+        ).image,
+      ),
+      title: Text(fireOtherFile.name),
+      onTap: () {
+        controller.downloadFile(fireOtherFile.downloadUrl, fireOtherFile.name);
+      },
+    );
+  }
+
+  GestureDetector imageFileWidget(FireImageFile fireImageFile) {
+    return GestureDetector(
+      onTap: () => controller.displayTappedImage(fireImageFile.image),
+      child: Row(
+        children: [
+          const SizedBox(
+            width: 6,
+          ),
+          SizedBox(
+            height: 250,
+            child: fireImageFile.image,
+          ),
+          const SizedBox(
+            width: 15,
+          )
+        ],
+      ),
+    );
   }
 
   Padding textForCard(String text, BuildContext context) {

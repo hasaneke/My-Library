@@ -1,9 +1,12 @@
 import 'package:get/get.dart';
 
-import 'package:my_library/data/repository/firebase_auth/signout_usecase.dart';
+import 'package:my_library/data/repository/firebase_auth/signout_api.dart';
+
 import 'package:my_library/presentation/in_app/tabbar/pages/tabs/all_cards_screen/pages/all_cards_screen.dart';
-import 'package:my_library/presentation/in_app/tabbar/pages/tabs/home/pages/home_screen.dart';
-import 'package:my_library/presentation/in_app/tabbar/pages/tabs/marked_cards/pages/marked_cards_screen.dart';
+
+import 'package:my_library/presentation/in_app/tabbar/pages/tabs/home/home_screen.dart';
+
+import 'package:my_library/presentation/in_app/tabbar/pages/tabs/marked_cards/marked_cards_screen.dart';
 
 class TabbarController extends GetxController {
   RxBool isLoading = true.obs;
@@ -14,7 +17,7 @@ class TabbarController extends GetxController {
     AllCardsScreen(),
   ]);
   signOut() {
-    SignoutUsecase.signOut();
+    SignoutApi.signOut();
     Get.back();
   }
 

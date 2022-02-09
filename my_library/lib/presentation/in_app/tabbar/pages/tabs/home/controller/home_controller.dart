@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:my_library/core/utils/routers/app_pages.dart';
 import 'package:my_library/data/models/category/my_category.dart';
-import 'package:my_library/data/repository/firebase_auth/signout_usecase.dart';
+import 'package:my_library/data/repository/firebase_auth/signout_api.dart';
 
-import 'package:my_library/presentation/domain/data/datastore_controller.dart';
+import 'package:my_library/domain/data/datastore_controller.dart';
 import 'package:my_library/presentation/in_app/components/add_category_dialog/add_category_dialog.dart';
 
 class HomeController extends GetxController {
@@ -12,7 +12,7 @@ class HomeController extends GetxController {
       Get.find<DatastoreController>().maincategories;
   RxMap<String, MyCategory> get maincategories => _maincategories;
   signOut() {
-    SignoutUsecase.signOut();
+    SignoutApi.signOut();
     Get.offAllNamed(Routes.LOGIN_SCREEN_ROUTE);
   }
 

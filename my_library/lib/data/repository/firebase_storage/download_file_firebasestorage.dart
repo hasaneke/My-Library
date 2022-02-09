@@ -3,16 +3,18 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:path_provider/path_provider.dart';
+
 import 'package:external_path/external_path.dart';
 
 class DownloadFileFirebaseStorage {
   static Future<void> downloadFileExample(
       String downloadUrl, String name) async {
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-
     try {
-      if (await _requestPermission(Permission.storage)) {
+      if (await _requestPermission([
+        Permission.storage,
+        Permission.accessMediaLocation,
+        Permission.manageExternalStorage,
+      ])) {
         File downloadToFile = File("/storage/emulated/0/Download/" + name);
         log(ExternalPath.DIRECTORY_DOWNLOADS);
         await FirebaseStorage.instance
@@ -31,17 +33,17 @@ class DownloadFileFirebaseStorage {
     }
   }
 
-  static Future<bool> _requestPermission(Permission permission) async {
-    if (await permission.isGranted) {
+  static Future<bool> _requestPermission(List<Permission> permissions) async {
+    if (await permissions[0].isGranted &&
+        await permissions[0].isGranted &&
+        await permissions[0].isGranted) {
       return true;
     } else {
-      var result = await permission.request();
-      if (result == PermissionStatus.granted) {
-        return true;
-      } else {
-        false;
+      for (var permission in permissions) {
+        permission.request();
+        if (await permission.isDenied) return false;
       }
+      return true;
     }
-    return false;
   }
 }

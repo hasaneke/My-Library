@@ -4,7 +4,7 @@ import 'package:my_library/data/models/card/files/fire_image_file.dart';
 import 'package:my_library/data/models/card/files/fire_other_file.dart';
 import 'package:my_library/data/repository/firebase_storage/fetch_files_firebasestorage.dart';
 
-import 'package:my_library/presentation/domain/usecases/togglemark_mycard.dart';
+import 'package:my_library/domain/usecases/mycard/togglemark_mycard.dart';
 
 class MyCard extends GetxController {
   String path;

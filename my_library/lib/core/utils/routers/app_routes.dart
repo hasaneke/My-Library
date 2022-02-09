@@ -11,9 +11,11 @@ abstract class Routes {
   static const CATEGORY_DETAIL_SCREEN_ROUTE = _Paths.CATEGORY_DETAIL_SCREEN;
   static const SETTINGS_SCREEN_ROUTE = _Paths.SETTINGS_SCREEN;
   static const ADD_CARD_SCREE_ROUTE = _Paths.ADD_CARD_SCREEN;
+  static const UPDATE_CARD_SCREEN_ROUTE = _Paths.UPDATE_CARD_SCREE;
   static const CARD_DETAIL_SCREEN_ROUTE = _Paths.CARD_DETAIL_SCREEN;
   static const EMAIL_VERTIFICATION_LOBBY_SCREEN_ROUTE =
       _Paths.EMAIL_VERTIFICATION_LOBBY_SCREEN;
+  static const PROFILE_SCREEN = _Paths.PROFILE_SCREEN;
 }
 
 abstract class _Paths {
@@ -25,5 +27,7 @@ abstract class _Paths {
   static const CATEGORY_DETAIL_SCREEN = '/category-detail-screen';
   static const SETTINGS_SCREEN = '/settings-screen';
   static const ADD_CARD_SCREEN = '/add-card-screen';
+  static const UPDATE_CARD_SCREE = '/update-card-screen';
   static const CARD_DETAIL_SCREEN = '/card-detail-screen';
+  static const PROFILE_SCREEN = '/profile-screen';
 }

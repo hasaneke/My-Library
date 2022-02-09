@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
-class FetchCategoriesApi {
+class FetchCategoriesFromFirestoreApi {
   static Future<QuerySnapshot?> fetchCategoriesApi(String path) async {
     try {
       return await FirebaseFirestore.instance.collection(path).get();

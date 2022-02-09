@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
-class UpdateCategoryTitleFirebaseApi {
+class UpdateCategoryTitleFirestoreApi {
   static Future<void> updateTitleOnFirebase(
       String newTitle, String path) async {
     try {

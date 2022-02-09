@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 import 'package:my_library/core/utils/routers/app_pages.dart';
 import 'package:my_library/data/repository/firebase_auth/signed_user.dart';
-import 'package:my_library/data/repository/firebase_auth/signup_with_email_and_password_usecase.dart';
+import 'package:my_library/data/repository/firebase_auth/signup_with_email_and_password_api.dart';
 
 class SignupController extends GetxController {
   RxString email = RxString('');
@@ -20,9 +20,8 @@ class SignupController extends GetxController {
     try {
       if (formKey.currentState!.validate()) {
         formKey.currentState!.save();
-        myUser =
-            await SignupWithEmailAndPasswordUsecase.signupWithEmailAndPassword(
-                email: email.value, password: password.value);
+        myUser = await SignupWithEmailAndPasswordApi.signupWithEmailAndPassword(
+            email: email.value, password: password.value);
         SignedUser.setUser(myUser);
         Get.toNamed(Routes.EMAIL_VERTIFICATION_LOBBY_SCREEN_ROUTE);
       }

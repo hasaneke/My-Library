@@ -47,6 +47,8 @@ final Map<String, String> enUs = {
   'short_exp': 'Short Explanation',
   'long_exp': 'Long explanation',
   'add_card': 'Add Card',
+  'edit_card': 'Edit Card',
+  'update': 'Update Card',
   /* LOGIN ERRORS */
   'wrong_password': 'Wrong Password',
 };
@@ -95,6 +97,8 @@ final Map<String, String> trTR = {
   'short_exp': 'Kısa Açıklama',
   'long_exp': 'Uzun Açıklama',
   'add_card': 'Kart Ekle',
+  'edit_card': 'Kart Düzenle',
+  'update_card': 'Kartı Güncelle',
   /* LOGIN ERRORS */
   'wrong_password': 'yanlış şifre',
 };

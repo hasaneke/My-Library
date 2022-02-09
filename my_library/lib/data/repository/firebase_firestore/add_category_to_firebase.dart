@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import 'package:my_library/data/models/category/my_category.dart';
 
-class AddCategoryToFirebase {
+class AddCategoryToFirestoreApi {
   static Future<void> addCategoryToFirebase(
       {required MyCategory myCategory}) async {
     try {

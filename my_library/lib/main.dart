@@ -12,6 +12,7 @@ void main() async {
   await Firebase.initializeApp();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
   runApp(GetMaterialApp(
     title: 'My Library',
     translationsKeys: AppTranslation.translationKeys,

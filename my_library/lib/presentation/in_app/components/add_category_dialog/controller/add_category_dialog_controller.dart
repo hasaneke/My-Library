@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:my_library/data/models/category/my_category.dart';
 import 'package:my_library/data/repository/firebase_auth/signed_user.dart';
 
-import 'package:my_library/presentation/domain/usecases/add_category.dart';
+import 'package:my_library/domain/usecases/mycategory/add_category.dart';
 import 'package:uuid/uuid.dart';
 
 class AddCategoryDialogController extends GetxController {
@@ -16,7 +16,7 @@ class AddCategoryDialogController extends GetxController {
   Future<void> addMainCategory() async {
     formKey.currentState!.save();
     String pathForMainCategory =
-        'users/${SignedUser.getUser()!.uid}/categories/' + const Uuid().v1();
+        'users/${SignedUser.myUser!.uid}/categories/' + const Uuid().v1();
     var newMainCategory = MyCategory(
         path: pathForMainCategory,
         title: RxString(title),
