@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:my_library/data/repository/firebase_auth/signed_user.dart';
 import 'package:my_library/presentation/in_app/tabbar/pages/tabs/home/components/my_drawer/pages/profile/controller/profile_controller.dart';
 
 class ProfileScreen extends GetView<ProfileController> {

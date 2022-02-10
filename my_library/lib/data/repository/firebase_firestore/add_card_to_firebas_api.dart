@@ -15,10 +15,4 @@ class AddMyCardToFirestoreApi {
       ));
     }
   }
-
-  // static void _uploadFiles(Map<String, File> files) {
-  //   files.forEach((path, file) {
-  //     UploadFileFirebaseStorage.uploadFileFirebaseStorage(path, file);
-  //   });
-  // }
 }

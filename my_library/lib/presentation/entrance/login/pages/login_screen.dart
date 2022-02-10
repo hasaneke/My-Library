@@ -134,6 +134,7 @@ class AuthWidget extends GetView<LoginController> {
                                           message: 'enter_a_password'.tr,
                                         ));
                                       }
+                                      return null;
                                     },
                                   ),
                                 ],

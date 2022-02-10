@@ -49,6 +49,7 @@ class SignUpScreen extends GetView<SignupController> {
                               ));
                               return 'invaild email';
                             }
+                            return null;
                           },
                           onSaved: (value) {
                             controller.email.value = value!;
@@ -69,6 +70,7 @@ class SignUpScreen extends GetView<SignupController> {
                               );
                               return 'invalid password';
                             }
+                            return null;
                           },
                           onSaved: (value) {
                             controller.password.value = value!;
@@ -85,6 +87,7 @@ class SignUpScreen extends GetView<SignupController> {
                                   duration: const Duration(seconds: 1)));
                               return 'error';
                             }
+                            return null;
                           },
                         ),
                       ],
