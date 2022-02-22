@@ -1,10 +1,11 @@
 // ignore_for_file: constant_identifier_names, prefer_const_constructors
 
 import 'package:get/get.dart';
-import 'package:my_library/domain/bindings/bindings.dart';
+import 'package:my_library/domain/bindings/initialibindings.dart';
 import 'package:my_library/domain/bindings/homebindings.dart';
 import 'package:my_library/presentation/entrance/email_vertification_lobby.dart/pages/email_vertification_lobby_screen.dart';
 import 'package:my_library/presentation/entrance/login/pages/login_screen.dart';
+import 'package:my_library/presentation/entrance/reset_password/pages/password_reset_screen.dart';
 import 'package:my_library/presentation/entrance/signup/pages/sign_up_screen.dart';
 import 'package:my_library/presentation/in_app/add_card/pages/add_card_screen.dart';
 import 'package:my_library/presentation/in_app/card_detail/pages/card_detail_screen.dart';
@@ -34,6 +35,10 @@ class AppPages {
     GetPage(
         name: Routes.EMAIL_VERTIFICATION_LOBBY_SCREEN_ROUTE,
         page: () => EmailVertificationLobbyScreen(),
+        binding: InitialBindings()),
+    GetPage(
+        name: Routes.PASSWORD_RESET_SCREEN,
+        page: () => PasswordResetScreen(),
         binding: InitialBindings()),
     GetPage(
         name: Routes.TABBAR_SCREEN_ROUTE,

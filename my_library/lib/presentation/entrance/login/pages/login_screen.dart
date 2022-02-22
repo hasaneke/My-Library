@@ -66,8 +66,7 @@ class AuthWidget extends GetView<LoginController> {
         Expanded(
           flex: 4,
           child: Container(
-            padding:
-                const EdgeInsets.only(top: 25, left: 35, right: 35, bottom: 55),
+            padding: const EdgeInsets.only(top: 25, left: 35, right: 35),
             child: Form(
                 key: controller.formKey,
                 child: Column(
@@ -172,39 +171,52 @@ class AuthWidget extends GetView<LoginController> {
                         ),
                       ],
                     ),
-                    const Divider(),
-                    MaterialButton(
-                      height: 60,
-                      color: Colors.lime[50],
-                      onPressed: () => controller.signInWithGoogle(),
-                      elevation: 2.0,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            margin:
-                                const EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15)),
-                            child: const Image(
-                              image: AssetImage('assets/google_light.png'),
-                              height: 35,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 140,
-                            child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Text(
-                                'sign_in_with_google'.tr,
-                                style: const TextStyle(fontSize: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 35),
+                      child: MaterialButton(
+                        height: 60,
+                        color: Colors.lime[50],
+                        onPressed: () => controller.signInWithGoogle(),
+                        elevation: 2.0,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.fromLTRB(
+                                  0.0, 0.0, 10.0, 0.0),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: const Image(
+                                image: AssetImage('assets/google_light.png'),
+                                height: 35,
                               ),
                             ),
-                          )
-                        ],
+                            SizedBox(
+                              width: 140,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  'sign_in_with_google'.tr,
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 200),
+                      child: TextButton(
+                          onPressed: () {
+                            controller.navigateToResetPassword();
+                          },
+                          child: const Text(
+                            'I forgot my password',
+                            style: TextStyle(color: Colors.purple),
+                          )),
+                    )
                   ],
                 )),
           ),

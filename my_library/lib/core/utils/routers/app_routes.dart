@@ -16,6 +16,7 @@ abstract class Routes {
   static const EMAIL_VERTIFICATION_LOBBY_SCREEN_ROUTE =
       _Paths.EMAIL_VERTIFICATION_LOBBY_SCREEN;
   static const PROFILE_SCREEN = _Paths.PROFILE_SCREEN;
+  static const PASSWORD_RESET_SCREEN = _Paths.PASSWORD_RESET_SCREEN;
 }
 
 abstract class _Paths {
@@ -30,4 +31,5 @@ abstract class _Paths {
   static const UPDATE_CARD_SCREE = '/update-card-screen';
   static const CARD_DETAIL_SCREEN = '/card-detail-screen';
   static const PROFILE_SCREEN = '/profile-screen';
+  static const PASSWORD_RESET_SCREEN = '/password-reset-screen';
 }

@@ -58,6 +58,10 @@ class LoginController extends GetxController {
     }
   }
 
+  navigateToResetPassword() {
+    Get.toNamed(Routes.PASSWORD_RESET_SCREEN);
+  }
+
   @override
   void onInit() async {
     isSigningIn.value = true;

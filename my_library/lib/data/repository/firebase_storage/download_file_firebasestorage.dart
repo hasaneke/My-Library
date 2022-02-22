@@ -1,10 +1,7 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
-
-import 'package:external_path/external_path.dart';
 
 class DownloadFileFirebaseStorage {
   static Future<void> downloadFileExample(
@@ -16,13 +13,13 @@ class DownloadFileFirebaseStorage {
         Permission.manageExternalStorage,
       ])) {
         File downloadToFile = File("/storage/emulated/0/Download/" + name);
-        log(ExternalPath.DIRECTORY_DOWNLOADS);
+
         await FirebaseStorage.instance
             .refFromURL(downloadUrl)
             .writeToFile(downloadToFile);
         Get.showSnackbar(const GetSnackBar(
           duration: Duration(seconds: 2),
-          message: 'File is downloaded',
+          message: 'File is downloaded to Download folder',
         ));
       }
     } on FirebaseException catch (e) {
@@ -35,8 +32,8 @@ class DownloadFileFirebaseStorage {
 
   static Future<bool> _requestPermission(List<Permission> permissions) async {
     if (await permissions[0].isGranted &&
-        await permissions[0].isGranted &&
-        await permissions[0].isGranted) {
+        await permissions[1].isGranted &&
+        await permissions[2].isGranted) {
       return true;
     } else {
       for (var permission in permissions) {

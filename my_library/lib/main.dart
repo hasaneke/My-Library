@@ -13,13 +13,15 @@ void main() async {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  runApp(GetMaterialApp(
-    title: 'My Library',
-    translationsKeys: AppTranslation.translationKeys,
-    locale: const Locale('en', 'US'),
-    debugShowCheckedModeBanner: false,
-    getPages: AppPages.routes,
-    initialRoute: Routes.LOGIN_SCREEN_ROUTE,
-    theme: Themes.limetheme,
-  ));
+  runApp(
+    GetMaterialApp(
+      title: 'My Library',
+      translationsKeys: AppTranslation.translationKeys,
+      locale: const Locale('en', 'US'),
+      debugShowCheckedModeBanner: false,
+      getPages: AppPages.routes,
+      initialRoute: Routes.LOGIN_SCREEN_ROUTE,
+      theme: Themes.limetheme,
+    ),
+  );
 }

@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import 'package:my_library/presentation/entrance/email_vertification_lobby.dart/controllers/email_lobby_controller.dart';
 import 'package:my_library/presentation/entrance/login/controller/login_controller.dart';
+import 'package:my_library/presentation/entrance/reset_password/controller/password_reset_controller.dart';
 import 'package:my_library/presentation/entrance/signup/controllers/signup_controller.dart';
 import 'package:my_library/presentation/in_app/components/add_category_dialog/controller/add_category_dialog_controller.dart';
 
@@ -21,5 +22,6 @@ class InitialBindings extends Bindings {
     Get.lazyPut<AddCategoryDialogController>(
         () => AddCategoryDialogController(),
         fenix: true);
+    Get.lazyPut<PasswordResetController>(() => PasswordResetController());
   }
 }
